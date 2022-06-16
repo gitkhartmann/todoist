@@ -6,32 +6,35 @@ import { Observable, of as observableOf, merge } from 'rxjs';
 
 // TODO: Replace this with your own data model type
 export interface TaskTableItem {
-  name: string;
   id: number;
+  priority: 'Высокий' | 'Средний' | 'Низкий';
+  date: Date;
+  category: string;
+  description: string;
 }
 
 // TODO: replace this with real data from your application
 const EXAMPLE_DATA: TaskTableItem[] = [
-  {id: 1, name: 'Hydrogen'},
-  {id: 2, name: 'Helium'},
-  {id: 3, name: 'Lithium'},
-  {id: 4, name: 'Beryllium'},
-  {id: 5, name: 'Boron'},
-  {id: 6, name: 'Carbon'},
-  {id: 7, name: 'Nitrogen'},
-  {id: 8, name: 'Oxygen'},
-  {id: 9, name: 'Fluorine'},
-  {id: 10, name: 'Neon'},
-  {id: 11, name: 'Sodium'},
-  {id: 12, name: 'Magnesium'},
-  {id: 13, name: 'Aluminum'},
-  {id: 14, name: 'Silicon'},
-  {id: 15, name: 'Phosphorus'},
-  {id: 16, name: 'Sulfur'},
-  {id: 17, name: 'Chlorine'},
-  {id: 18, name: 'Argon'},
-  {id: 19, name: 'Potassium'},
-  {id: 20, name: 'Calcium'},
+  {priority: 'Высокий', id: 1, date: new Date(), category: 'Спорт', description: 'lorekadfbvbfavkkafvblusnaum20'},
+  {priority: 'Низкий', id: 2,  date: new Date(), category: 'Отдых', description: 'lorkadfbvbfavkkafvblusnauem0'},
+  {priority: 'Высокий', id: 3, date: new Date(), category: 'Работа', description: 'lorkadfbvbfavkkafvblusnauem0'},
+  {priority: 'Высокий', id: 4, date: new Date(), category: 'Хобби', description: 'lorkadfbvbfavkkafvblusnauem0'},
+  {priority: 'Низкий', id: 5, date: new Date(), category: 'Спорт', description: 'lorekadfbvbfavkkafvblusnaum20'},
+  {priority: 'Высокий', id: 6, date: new Date(), category: 'Отдых', description: 'lorekadfbvbfavkkafvblusnaum20'},
+  {priority: 'Высокий', id: 7, date: new Date(), category: 'Работа', description: 'lorekadfbvbfavkkafvblusnaum20'},
+  {priority: 'Средний', id: 8, date: new Date(), category: 'Хобби', description: 'lorekadfbvbfavkkafvblusnaum20'},
+  {priority: 'Средний', id: 9, date: new Date(), category: 'Спорт', description: 'lorekadfbvbfavkkafvblusnaum20'},
+  {priority: 'Низкий', id: 10, date: new Date(), category: 'Отдых', description: 'lorekadfbvbfavkkafvblusnaum20'},
+  {priority: 'Высокий', id: 11, date: new Date(), category: 'Работа', description: 'lorkadfbvbfavkkafvblusnauem0'},
+  {priority: 'Низкий', id: 12, date: new Date(), category: 'Хобби', description: 'lorkadfbvbfavkkafvblusnauem0'},
+  {priority: 'Средний', id: 13, date: new Date(), category: 'Спорт', description: 'lorkadfbvbfavkkafvblusnauem0'},
+  {priority: 'Высокий', id: 14, date: new Date(), category: 'Отдых', description: 'lorekadfbvbfavkkafvblusnaum20'},
+  {priority: 'Высокий', id: 15, date: new Date(), category: 'Работа', description: 'lorkadfbvbfavkkafvblusnauem0'},
+  {priority: 'Средний', id: 16, date: new Date(), category: 'Хобби', description: 'lorkadfbvbfavkkafvblusnauem0'},
+  {priority: 'Средний', id: 17, date: new Date(), category: 'Спорт', description: 'lorkadfbvbfavkkafvblusnauem0'},
+  {priority: 'Высокий', id: 18, date: new Date(), category: 'Отдых', description: 'lorekadfbvbfavkkafvblusnaum20'},
+  {priority: 'Средний', id: 19, date: new Date(), category: 'Работа', description: 'lorekadfbvbfavkkafvblusnaum20'},
+  {priority: 'Высокий', id: 20, date: new Date(), category: 'Хобби', description: 'lorekadfbvbfavkkafvblusnaum20'},
 ];
 
 /**
@@ -97,8 +100,9 @@ export class TaskTableDataSource extends DataSource<TaskTableItem> {
     return data.sort((a, b) => {
       const isAsc = this.sort?.direction === 'asc';
       switch (this.sort?.active) {
-        case 'name': return compare(a.name, b.name, isAsc);
-        case 'id': return compare(+a.id, +b.id, isAsc);
+        case 'priority': return compare(a.priority, b.priority, isAsc);
+        case 'date': return compare(+a.date, +b.date, isAsc);
+        case 'category': return compare(a.category, b.category, isAsc);
         default: return 0;
       }
     });
