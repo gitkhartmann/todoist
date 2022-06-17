@@ -16,8 +16,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
 import { DialogComponent } from './dialog/dialog.component';
-import {MatInputModule} from '@angular/material/input';
-
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 
 
@@ -43,7 +44,9 @@ import {MatInputModule} from '@angular/material/input';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    MatNativeDateModule,
+    MatMomentDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
