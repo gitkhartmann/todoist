@@ -11,7 +11,7 @@ export class AppComponent {
 
   title = 'todoist';
 
-  constructor(public dialog: MatDialog) { }
+  constructor(private dialog: MatDialog) { }
   
   openDialog() {
     const dialogRef = this.dialog.open(DialogComponent, {width: '30%'});

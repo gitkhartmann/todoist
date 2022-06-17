@@ -1,5 +1,38 @@
-<h2 mat-dialog-title>Install Angular</h2>
+<h2 mat-dialog-title>Add task</h2>
 <mat-dialog-content class="mat-typography">
+		<!--Обозначение приоритета-->
+    <mat-form-field appearance="outline">
+        <mat-label>Designate a priority</mat-label>
+        <input matInput placeholder="Высокий">
+        <mat-hint>Hint</mat-hint>
+    </mat-form-field>
+		<!--Выбор категории-->
+		<mat-form-field appearance="outline">
+			<mat-label>Designate a category</mat-label>
+			<input matInput placeholder="Спорт">
+			<mat-hint>Hint</mat-hint>
+	</mat-form-field>
+	<!--Подробное описание-->
+	<mat-form-field appearance="outline">
+		<mat-label>Detailed description</mat-label>
+		<input matInput placeholder="Мама мыла раму...">
+		<mat-hint>Hint</mat-hint>
+</mat-form-field>
+		<!--<div class="datepicker">
+			<mat-form-field appearance="fill">
+				<mat-label>Enter a date range</mat-label>
+				<mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+						<input matStartDate formControlName="start" placeholder="Start date">
+						<input matEndDate formControlName="end" placeholder="End date">
+				</mat-date-range-input>
+				<mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+				<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+				<mat-date-range-picker #picker></mat-date-range-picker>
+				
+				<mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+				<mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+		</mat-form-field>
+		</div>-->
   <h3>Develop across all platforms</h3>
   <p>Learn one way to build applications with Angular and reuse your code and abilities to build
     apps for any deployment target. For web, mobile web, native mobile and native desktop.</p>
@@ -60,5 +93,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Save</button>
 </mat-dialog-actions>
