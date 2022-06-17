@@ -18,7 +18,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { DialogComponent } from './dialog/dialog.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
+
 
 
 
@@ -46,7 +46,6 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     MatDialogModule,
     MatInputModule,
     MatNativeDateModule,
-    MatMomentDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
