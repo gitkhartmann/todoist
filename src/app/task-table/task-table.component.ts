@@ -18,7 +18,7 @@ export class TaskTableComponent implements AfterViewInit {
 
   
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['priority', 'date', 'category', 'description'];
+  displayedColumns = ['priority', 'date', 'category', 'description', 'edit', 'delete'];
 
   constructor() {
     this.dataSource = new TaskTableDataSource();
