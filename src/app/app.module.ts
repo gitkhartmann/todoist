@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DatepickerComponent } from './task-table/datepicker/datepicker.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -22,7 +23,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     AppComponent,
     TaskTableComponent,
     DatepickerComponent,
-    
   ],
   imports: [
     BrowserModule,
@@ -37,6 +37,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatDatepickerModule,
     MatButtonModule,
     MatFormFieldModule,
+    ReactiveFormsModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
