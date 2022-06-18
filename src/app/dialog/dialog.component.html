@@ -1,7 +1,8 @@
 <h2 mat-dialog-title>Add task</h2>
+<form [formGroup]="formAddTask">
 <mat-dialog-content class="mat-typography">
 		<!--Обозначение приоритета-->
-		<form [formGroup]="formAddTask">
+		
     <mat-form-field appearance="outline">
         <mat-label>Designate a priority</mat-label>
         <input matInput placeholder="Высокий" type="text" formControlName="priority">
@@ -44,9 +45,10 @@
 			<input matInput placeholder="Мама мыла раму..." type="text" formControlName="description">
 			<mat-hint>Hint</mat-hint>
 		</mat-form-field>
-	</form>
+	
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="addTask()">Save</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="addTask()" [disabled]="formAddTask.invalid">Save</button>
 </mat-dialog-actions>
+</form>
