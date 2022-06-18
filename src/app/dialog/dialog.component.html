@@ -1,42 +1,52 @@
 <h2 mat-dialog-title>Add task</h2>
 <mat-dialog-content class="mat-typography">
 		<!--Обозначение приоритета-->
+		<form [formGroup]="formAddTask">
     <mat-form-field appearance="outline">
         <mat-label>Designate a priority</mat-label>
-        <input matInput placeholder="Высокий">
+        <input matInput placeholder="Высокий" type="text" formControlName="priority">
         <mat-hint>Hint</mat-hint>
     </mat-form-field>
 		
 		<div class="datepicker">
 			<mat-form-field appearance="outline">
 				<mat-label>Enter a date range</mat-label>
-				<mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+				<mat-date-range-input formGroupName="range" [rangePicker]="picker">
 						<input matStartDate formControlName="start" placeholder="Start date">
 						<input matEndDate formControlName="end" placeholder="End date">
 				</mat-date-range-input>
-				<mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+				<mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
 				<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 				<mat-date-range-picker #picker></mat-date-range-picker>
-				<!---->
+				<mat-error *ngIf="formAddTask.controls['start']?.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+    		<mat-error *ngIf="formAddTask.controls['end']?.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+				<!--
+				<mat-error *ngIf="f('start')">Invalid start date</mat-error>
+				<mat-error *ngIf="f('end')">Invalid start date</mat-error>
+
+				<mat-error *ngIf="isErrors('start', 'required')">Invalid start date</mat-error>
 				<mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-				<mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+				<mat-error *ngIf="f['start'].hasError('matStartDateInvalid')">Invalid start date</mat-error>
+				<mat-error *ngIf="f['end'].hasError('matEndDateInvalid')">Invalid end date</mat-error>
+				-->
 			</mat-form-field>
+		
 		</div>
 		<!--Выбор категории-->
 		<mat-form-field appearance="outline">
 			<mat-label>Designate a category</mat-label>
-			<input matInput placeholder="Спорт">
+			<input matInput placeholder="Спорт" type="text" formControlName="category">
 			<mat-hint>Hint</mat-hint>
 		</mat-form-field>
 	<!--Подробное описание-->
 		<mat-form-field appearance="outline">
 			<mat-label>Detailed description</mat-label>
-			<input matInput placeholder="Мама мыла раму...">
+			<input matInput placeholder="Мама мыла раму..." type="text" formControlName="description">
 			<mat-hint>Hint</mat-hint>
 		</mat-form-field>
-		
+	</form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Save</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="addTask()">Save</button>
 </mat-dialog-actions>
