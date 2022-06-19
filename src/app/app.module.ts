@@ -47,7 +47,7 @@ import { RegisterComponent } from './components/register/register.component';
     MatDialogModule,
     MatInputModule,
     MatNativeDateModule,
-    FormsModule
+    FormsModule, 
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ru' }

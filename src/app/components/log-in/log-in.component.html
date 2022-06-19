@@ -1,1 +1,41 @@
-<p>log-in works!</p>
+<!-- Toolbar -->
+<mat-toolbar color="primary">
+ <span>TODOist</span>
+  <span class="nav-tool-items">
+    <a mat-button mat-raised-button routerLink="register" routerLinkActive="active" (click)="goToRegisterPage()">Register</a>
+  </span>
+</mat-toolbar>
+
+
+<form class="example-form" [formGroup]="logInForm" (ngSubmit)="submit()">
+  <h2 mat-dialog-title>Login</h2>
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Email</mat-label>
+    <input type="email" matInput formControlName="emailFormControl" [errorStateMatcher]="matcher"
+           placeholder="Ex. pat@example.com">
+    <mat-hint>Errors appear instantly!</mat-hint>
+    <mat-error *ngIf="logInForm.controls['emailFormControl'].hasError('email') && !logInForm.controls['emailFormControl'].hasError('required')">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="logInForm.controls['emailFormControl'].hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Password</mat-label>
+    <input type="password" matInput formControlName="passwordFormControl" [errorStateMatcher]="matcher"
+           placeholder="gf&/#aFJa&!">
+    <mat-hint>Errors appear instantly!</mat-hint>
+    <mat-error *ngIf="logInForm.controls['passwordFormControl'].hasError('password') && !logInForm.controls['passwordFormControl'].hasError('required')">
+      Please enter a valid password 
+    </mat-error>
+    <mat-error *ngIf="logInForm.controls['passwordFormControl'].hasError('required')">
+      Password is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-dialog-actions align="end">
+    <button type="reset" mat-button mat-dialog-close (click)="reset()">Reset</button>
+    <button type="submit" mat-button [mat-dialog-close]="true" cdkFocusInitial [disabled]="logInForm.invalid">Log in</button>
+  </mat-dialog-actions>
+</form>
+<router-outlet></router-outlet>
