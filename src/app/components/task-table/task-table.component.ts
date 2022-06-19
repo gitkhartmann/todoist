@@ -3,7 +3,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { TaskTableDataSource, TaskTableItem } from './task-table-datasource';
+import { TaskTableItem } from '../../shared/interfaces';
+import { TaskTableDataSource } from './task-table-datasource';
 
 @Component({
   selector: 'app-task-table',

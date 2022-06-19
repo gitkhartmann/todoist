@@ -3,15 +3,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
+import { TaskTableItem } from '../../shared/interfaces';
 
-// TODO: Replace this with your own data model type
-export interface TaskTableItem {
-  id: number;
-  priority: 'Высокий' | 'Средний' | 'Низкий';
-  date: Date;
-  category: string;
-  description: string;
-}
+
 
 // TODO: replace this with real data from your application
 const EXAMPLE_DATA: TaskTableItem[] = [

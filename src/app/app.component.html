@@ -1,26 +1,14 @@
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-  <mat-toolbar color="primary">
-
+<mat-toolbar color="primary">
     <mat-toolbar-row>
       <span>TODOist</span>
-      <span class="example-spacer"></span>
-      
+      <span class="example-spacer"></span>    
       <button mat-stroked-button (click)="openDialog()">Add Task</button>
       <button mat-stroked-button>Log out</button>
     </mat-toolbar-row>
-  </mat-toolbar>
-
+</mat-toolbar>
 
 <div class="content">
   <app-task-table></app-task-table>
 </div>
-
+<router-outlet></router-outlet>
 
