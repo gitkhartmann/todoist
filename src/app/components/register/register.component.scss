@@ -1,0 +1,19 @@
+mat-toolbar {
+  justify-content: space-between;
+}
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  background-color: rgb(66, 66, 66);
+  padding: 24px;
+  margin: 5rem auto;
+  color: rgb(255, 255, 255);
+}
+
+.example-full-width {
+  width: 100%;
+}
+.example-spacer {
+  flex: 1 1 auto;
+}
