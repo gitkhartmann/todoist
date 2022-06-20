@@ -5,14 +5,10 @@ import { RegisterComponent } from './components/register/register.component';
 import { TaskTableComponent } from './components/task-table/task-table.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'tasktable' },
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LogInComponent },
   { path: 'tasktable', component: TaskTableComponent },
-  /*{ path: '', pathMatch: 'full', redirectTo: 'login' },
-  { path: 'login', component: LogInComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'tasktable', component: TaskTableComponent },*/
 ];
 
 @NgModule({

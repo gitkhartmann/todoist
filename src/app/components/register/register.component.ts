@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
       this.registerForm.value.passwordFormControl
     ).subscribe({
       next: data => {
-        //this.reset()
+        this.reset()
         //сохраняем токен в localStorage
         this.auth.tokenInStorage(data.idToken)
         console.log('Registered IdToken', data.idToken)

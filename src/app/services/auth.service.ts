@@ -13,7 +13,7 @@ export class AuthService {
   ) { }
 
   isAuthenticated():boolean {
-    if (sessionStorage.getItem('token') !== null) {
+    if (localStorage.getItem('token') !== null) {
       return true
     }
     return false

@@ -40,6 +40,7 @@ export class LogInComponent implements OnInit {
     this.auth.login(this.logInForm.value.emailFormControl, this.logInForm.value.passwordFormControl)
       .subscribe({
         next: data => {
+          this.logInForm.reset()
           this.auth.tokenInStorage(data.idToken)
           console.log('login with token id:', data.idToken)
           this.auth.canAuthenticate()
