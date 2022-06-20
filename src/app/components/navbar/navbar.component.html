@@ -2,7 +2,7 @@
   <mat-toolbar-row>
     <span>TODOist</span>
     <span class="example-spacer"></span>
-    <ng-container *ngIf="true; then isAuth; else notAuth"></ng-container>
+    <ng-container *ngIf="this.auth.isAuthenticated(); then isAuth; else notAuth"></ng-container>
     <ng-template #isAuth>    
     <button mat-stroked-button (click)="openDialog()">Add Task</button>
     <button mat-stroked-button>Log out</button>

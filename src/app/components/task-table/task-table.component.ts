@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
+import { AuthService } from 'src/app/services/auth.service';
 import { TaskTableItem } from '../../shared/interfaces';
 import { TaskTableDataSource } from './task-table-datasource';
 
@@ -10,18 +11,20 @@ import { TaskTableDataSource } from './task-table-datasource';
   templateUrl: './task-table.component.html',
   styleUrls: ['./task-table.component.scss']
 })
-export class TaskTableComponent implements AfterViewInit {
+export class TaskTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<TaskTableItem>;
   dataSource: TaskTableDataSource;
 
-  
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['priority', 'date', 'category', 'description', 'action'];
 
-  constructor() {
+  constructor(private auth:AuthService) {
     this.dataSource = new TaskTableDataSource()
+  }
+  
+  ngOnInit(): void {
+    this.auth.getAcces()
   }
 
   ngAfterViewInit(): void {

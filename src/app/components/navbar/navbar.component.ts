@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
@@ -12,7 +13,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private router:Router
+    public auth: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -23,10 +24,4 @@ export class NavbarComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-  /**goToRegisterPage() {
-    this.router.navigate(['register'])
-  }
-  goToLoginPage() {
-    this.router.navigate(['login'])
-  }*/
 }
