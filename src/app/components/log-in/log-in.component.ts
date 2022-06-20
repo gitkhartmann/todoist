@@ -32,7 +32,7 @@ export class LogInComponent implements OnInit {
 
   submit() {
     this.loading = true
-    console.dir(this.logInForm.value.emailFormControl,this.logInForm.value.passwordFormControl )
+    console.dir(this.logInForm.value)
   }
 
   reset() {

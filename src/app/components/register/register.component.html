@@ -19,8 +19,8 @@
      <input type="email" matInput formControlName="emailFormControl" [errorStateMatcher]="matcher"
             placeholder="Ex. pat@example.com">
      <mat-hint>Errors appear instantly!</mat-hint>
-     <mat-error *ngIf="registerForm.controls['emailFormControl'].hasError('email') && !registerForm.controls['emailFormControl'].hasError('required')">
-       Please enter a valid email address
+     <mat-error *ngIf="this.errorMessage">
+       {{this.errorMessage}}
      </mat-error>
      <mat-error *ngIf="registerForm.controls['emailFormControl'].hasError('required')">
        Email is <strong>required</strong>

@@ -22,6 +22,7 @@ import { LogInComponent } from './components/log-in/log-in.component';
 import { RegisterComponent } from './components/register/register.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatNativeDateModule,
     FormsModule, 
     MatProgressSpinnerModule,
+    HttpClientModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ru' }
