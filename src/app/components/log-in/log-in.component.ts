@@ -16,7 +16,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./log-in.component.scss']
 })
 export class LogInComponent implements OnInit {
-
+  loading: boolean = false
   logInForm!: FormGroup
 
   matcher = new MyErrorStateMatcher();
@@ -31,6 +31,7 @@ export class LogInComponent implements OnInit {
   }
 
   submit() {
+    this.loading = true
     console.dir(this.logInForm.value.emailFormControl,this.logInForm.value.passwordFormControl )
   }
 

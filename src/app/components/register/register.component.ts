@@ -9,8 +9,9 @@ import { MyErrorStateMatcher } from '../log-in/log-in.component';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  registerForm!: FormGroup
 
+  registerForm!: FormGroup
+  loading: boolean = false
   matcher = new MyErrorStateMatcher();
   
   constructor(private router: Router) { }
@@ -24,7 +25,8 @@ export class RegisterComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.registerForm.value.nameFormControl,this.registerForm.value.emailFormControl,this.registerForm.value.passwordFormControl )
+    this.loading = true
+    console.dir(this.registerForm.value)
   }
 
   reset() {

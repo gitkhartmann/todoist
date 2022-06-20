@@ -37,10 +37,12 @@
      <mat-error *ngIf="registerForm.controls['passwordFormControl'].hasError('required')">
        Password is <strong>required</strong>
      </mat-error>
+    
    </mat-form-field>
    <mat-dialog-actions align="end">
-     <button type="reset" mat-button mat-dialog-close (click)="reset()">Reset</button>
-     <button type="submit" mat-button [mat-dialog-close]="true" cdkFocusInitial [disabled]="registerForm.invalid">Register</button>
+     <button *ngIf="!this.loading" type="reset" mat-button (click)="reset()">Reset</button>
+     <button *ngIf="!this.loading" type="submit" mat-button cdkFocusInitial [disabled]="registerForm.invalid">Register</button>
+     <mat-spinner [diameter]="36" *ngIf="this.loading"></mat-spinner>
    </mat-dialog-actions>
  </form>
  <router-outlet></router-outlet>
