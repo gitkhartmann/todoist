@@ -19,12 +19,24 @@ export class TaskTableComponent implements AfterViewInit, OnInit {
 
   displayedColumns = ['priority', 'date', 'category', 'description', 'action'];
 
+  user = { localId: '', displayName: '' }
+  
   constructor(private auth:AuthService) {
     this.dataSource = new TaskTableDataSource()
   }
   
   ngOnInit(): void {
     this.auth.getAcces()
+
+    if (this.auth.isAuthenticated()) {
+      this.auth.getDetailsUser().subscribe({
+        next: data => {
+          this.user.displayName = data.users[0].displayName
+          this.user.localId = data.users[0].localId
+        }
+      })
+    }
+      
   }
 
   ngAfterViewInit(): void {

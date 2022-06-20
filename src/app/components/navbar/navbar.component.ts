@@ -13,15 +13,21 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    public auth: AuthService
+    protected auth: AuthService
   ) { }
 
   ngOnInit(): void {
   }
+
   openDialog() {
     const dialogRef = this.dialog.open(DialogComponent, {width: '30%'});
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  logOut() {
+    this.auth.removeToken()
+    this.auth.getAcces()
   }
 }

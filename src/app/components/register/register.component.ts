@@ -14,8 +14,6 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup
   loading: boolean = false
   matcher = new MyErrorStateMatcher()
-  errorMessage:string = ''
-
 
   constructor(
     private router: Router,
@@ -27,7 +25,8 @@ export class RegisterComponent implements OnInit {
       nameFormControl: new FormControl('',[Validators.required, Validators.minLength(2)]),
 			emailFormControl: new FormControl('', [Validators.required, Validators.email]),
       passwordFormControl: new FormControl('', [Validators.required, Validators.minLength(6)]),
-		})
+    })
+    this.auth.canAuthenticate()
   }
 
   submit() {
@@ -38,25 +37,18 @@ export class RegisterComponent implements OnInit {
       this.registerForm.value.passwordFormControl
     ).subscribe({
       next: data => {
+        //this.reset()
         //сохраняем токен в localStorage
         this.auth.tokenInStorage(data.idToken)
         console.log('Registered IdToken', data.idToken)
+        this.auth.canAuthenticate()
       },
       error: data => {
-        if (data.error.error.message === 'INVALID_EMAIL') {
-          this.errorMessage = 'Please enter a valid email address'
-        } else if (data.error.error.message === 'EMAIL_EXISTS') {
-          this.errorMessage = 'Already Email registered!'
-        } else { this.errorMessage = 'Unknown error, please try again' }
-        /*
-        switch (data.error.error.message) {
-          case 'INVALID_EMAIL': this.errorMessage = 'Please enter a valid email address'; break;
-          case 'EMAIL_EXISTS': this.errorMessage = 'Already Email registered!'; break;
-          default: this.errorMessage = 'Unknown error, please try again';
-        }*/
+        console.log(data.error.error.message)
       }
     }).add(() => {
       this.loading = false
+      console.log('Registered complete')
     })
   }
 

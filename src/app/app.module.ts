@@ -24,6 +24,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 
+
 @NgModule({
   declarations: [
     AppComponent,

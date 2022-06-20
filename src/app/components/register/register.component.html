@@ -19,8 +19,8 @@
      <input type="email" matInput formControlName="emailFormControl" [errorStateMatcher]="matcher"
             placeholder="Ex. pat@example.com">
      <mat-hint>Errors appear instantly!</mat-hint>
-     <mat-error *ngIf="this.errorMessage">
-       {{this.errorMessage}}
+     <mat-error *ngIf="registerForm.controls['emailFormControl'].hasError('email') && !registerForm.controls['emailFormControl'].hasError('required')">
+      Please enter a valid email address
      </mat-error>
      <mat-error *ngIf="registerForm.controls['emailFormControl'].hasError('required')">
        Email is <strong>required</strong>
@@ -31,7 +31,7 @@
      <input type="password" matInput formControlName="passwordFormControl" [errorStateMatcher]="matcher"
             placeholder="gf&/#aFJa&!">
      <mat-hint>Errors appear instantly!</mat-hint>
-     <mat-error *ngIf="registerForm.controls['passwordFormControl'].hasError('password') && !registerForm.controls['passwordFormControl'].hasError('required')">
+     <mat-error *ngIf="registerForm.controls['passwordFormControl'].hasError('password') || !registerForm.controls['passwordFormControl'].hasError('required')">
        Please enter a valid password 
      </mat-error>
      <mat-error *ngIf="registerForm.controls['passwordFormControl'].hasError('required')">
@@ -40,10 +40,9 @@
     
    </mat-form-field>
    <mat-dialog-actions align="end">
-     <button *ngIf="!this.loading" type="reset" mat-button (click)="reset()">Reset</button>
-     <button *ngIf="!this.loading" type="submit" mat-button cdkFocusInitial [disabled]="registerForm.invalid">Register</button>
-     <mat-spinner [diameter]="36" *ngIf="this.loading"></mat-spinner>
+     <button *ngIf="!loading" type="reset" mat-button (click)="reset()">Reset</button>
+     <button *ngIf="!loading" type="submit" routerLink="tasktable" mat-button cdkFocusInitial [disabled]="registerForm.invalid">Register</button>
+     <mat-spinner [diameter]="36" *ngIf="loading"></mat-spinner>
    </mat-dialog-actions>
  </form>
- <router-outlet></router-outlet>
  

@@ -25,6 +25,12 @@ export class AuthService {
     }
   }
 
+  canAuthenticate() {
+    if (this.isAuthenticated()) {
+      this.router.navigate(['/tasktable'])
+    }
+  }
+
   registerUser(name: string, email: string, password: string) {
     return this.http
       .post<{idToken:string}>(
@@ -34,5 +40,24 @@ export class AuthService {
   }
   tokenInStorage(token:string) {
     localStorage.setItem('token', token)
+  }
+
+  login(email: string, password: string) {
+    return this.http.post<{ idToken: string }>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAlDYPBIq9ndp9TelkO5XTm39-ESs9SrGA',
+    {email,password}
+    )
+  }
+
+  getDetailsUser() {
+    let token = localStorage.getItem('token')
+
+    return this.http.post<{users:Array<{localId:string, displayName:string}>}>(
+      'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAlDYPBIq9ndp9TelkO5XTm39-ESs9SrGA',
+      {idToken:token}
+    )
+  }
+
+  removeToken() {
+    localStorage.removeItem('token')
   }
 }

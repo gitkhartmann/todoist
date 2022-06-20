@@ -5,7 +5,7 @@
     <ng-container *ngIf="this.auth.isAuthenticated(); then isAuth; else notAuth"></ng-container>
     <ng-template #isAuth>    
     <button mat-stroked-button (click)="openDialog()">Add Task</button>
-    <button mat-stroked-button>Log out</button>
+    <button mat-stroked-button (click)="logOut()">Log out</button>
     </ng-template>
     <ng-template #notAuth>
     <a class="mat-stroked-button" mat-button mat-raised-button routerLink="/login" routerLinkActive="active">Log In</a>
