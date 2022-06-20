@@ -9,25 +9,26 @@ import { MyErrorStateMatcher } from '../log-in/log-in.component';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  logInForm!: FormGroup
+  registerForm!: FormGroup
 
   matcher = new MyErrorStateMatcher();
   
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    this.logInForm = new FormGroup({
+    this.registerForm = new FormGroup({
+      nameFormControl: new FormControl('',[Validators.required, Validators.minLength(2)]),
 			emailFormControl: new FormControl('', [Validators.required, Validators.email]),
-      passwordFormControl: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+      passwordFormControl: new FormControl('', [Validators.required, Validators.minLength(6)]),
 		})
   }
 
   submit() {
-    console.dir(this.logInForm.value.emailFormControl,this.logInForm.value.passwordFormControl )
+    console.log(this.registerForm.value.nameFormControl,this.registerForm.value.emailFormControl,this.registerForm.value.passwordFormControl )
   }
 
   reset() {
-    this.logInForm.reset()
+    this.registerForm.reset()
   }
 
   goToLoginPage() {
