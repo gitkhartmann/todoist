@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>TODOist</span>
+    <span class="example-spacer"></span>
+    <ng-container *ngIf="true; then isAuth; else notAuth"></ng-container>
+    <ng-template #isAuth>    
+    <button mat-stroked-button (click)="openDialog()">Add Task</button>
+    <button mat-stroked-button>Log out</button>
+    </ng-template>
+    <ng-template #notAuth>
+    <a class="mat-stroked-button" mat-button mat-raised-button routerLink="/login" routerLinkActive="active">Log In</a>
+    <a class="mat-stroked-button" mat-button mat-raised-button routerLink="/register" routerLinkActive="active">Register</a>
+    </ng-template>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -38,8 +38,6 @@ export class LogInComponent implements OnInit {
     this.logInForm.reset()
   }
 
-  goToRegisterPage() {
-    this.router.navigate(['register'])
-  }
+  
 
 }
