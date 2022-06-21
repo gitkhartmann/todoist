@@ -3,9 +3,10 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -17,8 +18,26 @@ export class AuthInterceptor implements HttpInterceptor {
     private router: Router
   ) { }
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    
-    return next.handle(request);
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (this.auth.isAuthenticated()) {
+      request = request.clone({
+        setParams: {
+          auth: this.auth.token as string
+        }
+      })
+    }
+    return next.handle(request)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.log('INTERCEPTOR ERROR: ', error)
+          if (error.status === 401) {
+            this.auth.logOut()
+            this.router.navigate(['/login'], {
+              queryParams: {authFailed: true}
+            })
+          }
+          return throwError(error)
+        })
+      )
   }
 }

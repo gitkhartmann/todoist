@@ -1,8 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { TaskService } from 'src/app/services/task.service';
 import { ITask } from '../../shared/interfaces';
 import { TaskTableDataSource } from './task-table-datasource';
 
@@ -11,7 +13,7 @@ import { TaskTableDataSource } from './task-table-datasource';
   templateUrl: './task-table.component.html',
   styleUrls: ['./task-table.component.scss']
 })
-export class TaskTableComponent implements AfterViewInit, OnInit {
+export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<ITask>;
@@ -21,8 +23,17 @@ export class TaskTableComponent implements AfterViewInit, OnInit {
 
   user = { localId: '', displayName: '' }
   
-  constructor(private auth:AuthService) {
+  tasks!: Task[]
+  tasksSubscription!: Subscription
+
+  constructor(
+    private auth: AuthService,
+    private taskService: TaskService
+  ) {
     this.dataSource = new TaskTableDataSource()
+  }
+  ngOnDestroy() {
+    if(this.tasksSubscription) this.tasksSubscription.unsubscribe()
   }
   
   ngOnInit(): void {
@@ -36,7 +47,9 @@ export class TaskTableComponent implements AfterViewInit, OnInit {
         }
       })
     }
-      
+    this.tasksSubscription = this.taskService.getAll().subscribe({
+      next: tasks => {this.tasks = tasks}
+    })
   }
 
   ngAfterViewInit(): void {
@@ -44,6 +57,4 @@ export class TaskTableComponent implements AfterViewInit, OnInit {
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
   }
-  
-  
 }

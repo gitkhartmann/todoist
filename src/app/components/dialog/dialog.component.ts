@@ -51,9 +51,7 @@ export class DialogComponent implements OnInit {
     }
 
     this.taskService.create(task).subscribe({
-      next: () => {
-        this.formAddTask.reset()
-      }
+      next: () => {this.formAddTask.reset()}
     })
     console.log(task)
   }

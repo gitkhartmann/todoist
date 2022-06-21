@@ -22,4 +22,16 @@ export class TaskService {
         })
       )
   }
+
+  getAll(): Observable<Task[]> {
+    return this.http.get(`${environment.fbDbUrl}/tasks.json`)
+      .pipe(map((response: { [key: string]: any }) => {
+        return Object.keys(response)
+          .map(key => ({
+            ...response[key],
+            id: key
+          }))
+        })
+      )
+  }
 }
