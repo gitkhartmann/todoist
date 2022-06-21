@@ -39,7 +39,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     DialogComponent,
     LogInComponent,
     RegisterComponent,
-    NavbarComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +60,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     MatNativeDateModule,
     FormsModule, 
     MatProgressSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     INTERCEPTOR_PROVIDER,

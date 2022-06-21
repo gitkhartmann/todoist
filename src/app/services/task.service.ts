@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { DialogComponent } from '../components/dialog/dialog.component';
 import { IFbCreateResponse, ITask } from '../shared/interfaces';
 
 
@@ -33,5 +35,22 @@ export class TaskService {
           }))
         })
       )
+  }
+  remove(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.fbDbUrl}/tasks/${id}.json`)
+    
+  }
+
+  getById(id: string): Observable<ITask> {
+		return this.http.get<ITask>(`${environment.fbDbUrl}tasks/${id}.json`)
+			.pipe(map((task: ITask) => {
+				return {
+					...task, id,
+				}
+			}))
+  }
+  
+  update(task: ITask): Observable<ITask> {
+    return this.http.patch<ITask>(`${environment.fbDbUrl}tasks/${task.id}.json`, task)
   }
 }

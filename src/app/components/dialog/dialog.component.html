@@ -44,6 +44,6 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button type="submit" mat-button [mat-dialog-close]="true" cdkFocusInitial [disabled]="formAddTask.invalid">Save</button>
+  <button type="submit" mat-button [mat-dialog-close]="true" cdkFocusInitial [disabled]="formAddTask.invalid">{{action}}</button>
 </mat-dialog-actions>
 </form>

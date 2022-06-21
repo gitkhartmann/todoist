@@ -13,7 +13,7 @@
       <td mat-cell *matCellDef="let row">
         <!---->
         <!--{{row.date | date: 'd/M/yy, HH:mm'}}-->
-        <app-datepicker></app-datepicker>
+       с {{row.range.start | date: 'dd.MM.yy'}} по {{row.range.end | date: 'dd.MM.yy'}}
       </td>
     </ng-container>
 
@@ -32,7 +32,10 @@
     <!-- Name Description mat-sort-header -->
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef >Action</th>
-      <td mat-cell *matCellDef="let row"><mat-icon class="transition">create</mat-icon><mat-icon class="transition">delete</mat-icon></td>
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button><mat-icon class="transition" (click)="editTask(row)">create</mat-icon></button>
+        <button mat-icon-button><mat-icon class="transition" (click)="remove(row.id)">delete</mat-icon></button>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
