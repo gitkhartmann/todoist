@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { IFbCreateResponse, ITask } from '../shared/interfaces';
 
 
 @Injectable({
@@ -11,7 +12,14 @@ export class TaskService {
 
   constructor(private http: HttpClient) { }
 
-  create(task: Task): Observable<Task> {
-  return this.http.post<Task>(`${environment.fbDbUrl}/tasks.json`, task)
+  create(task: ITask): Observable<ITask> {
+    return this.http.post(`${environment.fbDbUrl}/tasks.json`, task)
+      .pipe(map((response: IFbCreateResponse) => {
+          return {
+            ...task,
+            id: response.name
+          }
+        })
+      )
   }
 }

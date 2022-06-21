@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/shared/interfaces';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -36,13 +37,17 @@ export class LogInComponent implements OnInit {
   }
 
   submit() {
+    const user: User = {
+      email: this.logInForm.value.emailFormControl,
+      password: this.logInForm.value.passwordFormControl
+    }
     this.loading = true
     this.auth.login(this.logInForm.value.emailFormControl, this.logInForm.value.passwordFormControl)
       .subscribe({
         next: data => {
           this.logInForm.reset()
-          this.auth.tokenInStorage(data.idToken)
-          console.log('login with token id:', data.idToken)
+          this.auth.setToken(data)
+          console.log('login with token id:', data.idToken, data.expiresIn)
           this.auth.canAuthenticate()
         },
         error: data => {

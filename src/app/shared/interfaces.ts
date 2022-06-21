@@ -1,4 +1,4 @@
-export interface Task {
+export interface ITask {
     id?: string;
     priority: string;
   range: {
@@ -6,5 +6,20 @@ export interface Task {
     start: string;
     };
     category: string;
-    description: string;
-  }
+  description: string;
+}
+  
+export interface IFbCreateResponse {
+  name?: string;
+}
+
+export interface FBAuthResponse {
+	idToken: string
+	expiresIn: string
+}
+
+export interface User {
+	email: string
+	password: string
+	returnSecureToken?: boolean
+}

@@ -39,8 +39,9 @@ export class RegisterComponent implements OnInit {
       next: data => {
         this.reset()
         //сохраняем токен в localStorage
-        this.auth.tokenInStorage(data.idToken)
-        console.log('Registered IdToken', data.idToken)
+        /*this.auth.tokenInStorage(data.idToken)*/
+        this.auth.setToken(data)
+        console.log('Registered IdToken', data.idToken, data.expiresIn)
         this.auth.canAuthenticate()
       },
       error: data => {

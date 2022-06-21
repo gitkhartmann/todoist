@@ -3,12 +3,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
-import { Task } from '../../shared/interfaces';
+import { ITask } from '../../shared/interfaces';
 
 
 
 // TODO: replace this with real data from your application
-const EXAMPLE_DATA: Task[] = [
+const EXAMPLE_DATA: ITask[] = [
   {priority: 'Высокий', id: '1', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Спорт', description: 'lorekadfbvbfavkkafvblusnaum20'},
   {priority: 'Низкий', id: '2',  range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Отдых', description: 'lorkadfbvbfavkkafvblusnauem0'},
   {priority: 'Высокий', id: '3', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Работа', description: 'lorkadfbvbfavkkafvblusnauem0'},
@@ -36,8 +36,8 @@ const EXAMPLE_DATA: Task[] = [
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class TaskTableDataSource extends DataSource<Task> {
-  data: Task[] = EXAMPLE_DATA;
+export class TaskTableDataSource extends DataSource<ITask> {
+  data: ITask[] = EXAMPLE_DATA;
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
 
@@ -50,7 +50,7 @@ export class TaskTableDataSource extends DataSource<Task> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<Task[]> {
+  connect(): Observable<ITask[]> {
     if (this.paginator && this.sort) {
       // Combine everything that affects the rendered data into one update
       // stream for the data-table to consume.
@@ -73,7 +73,7 @@ export class TaskTableDataSource extends DataSource<Task> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: Task[]): Task[] {
+  private getPagedData(data: ITask[]): ITask[] {
     if (this.paginator) {
       const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
       return data.splice(startIndex, this.paginator.pageSize);
@@ -86,7 +86,7 @@ export class TaskTableDataSource extends DataSource<Task> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: Task[]): Task[] {
+  private getSortedData(data: ITask[]): ITask[] {
     if (!this.sort || !this.sort.active || this.sort.direction === '') {
       return data;
     }

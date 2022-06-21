@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { AuthService } from 'src/app/services/auth.service';
-import { Task } from '../../shared/interfaces';
+import { ITask } from '../../shared/interfaces';
 import { TaskTableDataSource } from './task-table-datasource';
 
 @Component({
@@ -14,7 +14,7 @@ import { TaskTableDataSource } from './task-table-datasource';
 export class TaskTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<Task>;
+  @ViewChild(MatTable) table!: MatTable<ITask>;
   dataSource: TaskTableDataSource;
 
   displayedColumns = ['priority', 'date', 'category', 'description', 'action'];
