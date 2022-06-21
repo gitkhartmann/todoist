@@ -23,14 +23,14 @@ export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy {
 
   user = { localId: '', displayName: '' }
   
-  tasks!: Task[]
+  tasks!: ITask[]
   tasksSubscription!: Subscription
 
   constructor(
     private auth: AuthService,
     private taskService: TaskService
   ) {
-    this.dataSource = new TaskTableDataSource()
+    this.dataSource = new TaskTableDataSource();
   }
   ngOnDestroy() {
     if(this.tasksSubscription) this.tasksSubscription.unsubscribe()

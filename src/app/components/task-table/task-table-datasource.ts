@@ -4,11 +4,12 @@ import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 import { ITask } from '../../shared/interfaces';
+import { TaskService } from 'src/app/services/task.service';
 
 
 
 // TODO: replace this with real data from your application
-const EXAMPLE_DATA: ITask[] = [
+/*const EXAMPLE_DATA: ITask[] = [
   {priority: 'Высокий', id: '1', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Спорт', description: 'lorekadfbvbfavkkafvblusnaum20'},
   {priority: 'Низкий', id: '2',  range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Отдых', description: 'lorkadfbvbfavkkafvblusnauem0'},
   {priority: 'Высокий', id: '3', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Работа', description: 'lorkadfbvbfavkkafvblusnauem0'},
@@ -29,7 +30,7 @@ const EXAMPLE_DATA: ITask[] = [
   {priority: 'Высокий', id: '18', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Отдых', description: 'lorekadfbvbfavkkafvblusnaum20'},
   {priority: 'Средний', id: '19', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Работа', description: 'lorekadfbvbfavkkafvblusnaum20'},
   {priority: 'Высокий', id: '20', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Хобби', description: 'lorekadfbvbfavkkafvblusnaum20'},
-];
+];*/
 
 /**
  * Data source for the TaskTable view. This class should
@@ -37,7 +38,7 @@ const EXAMPLE_DATA: ITask[] = [
  * (including sorting, pagination, and filtering).
  */
 export class TaskTableDataSource extends DataSource<ITask> {
-  data: ITask[] = EXAMPLE_DATA;
+  data!: ITask[]  /*= this.taskService.getAll();*/
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
 
