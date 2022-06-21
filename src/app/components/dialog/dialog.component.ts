@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TaskService } from 'src/app/services/task.service';
+import { Task } from '../../shared/interfaces';
 
 @Component({
   selector: 'app-dialog',
@@ -10,7 +12,7 @@ export class DialogComponent implements OnInit {
 
   formAddTask!: FormGroup
 
-  constructor() { }
+  constructor(private taskService: TaskService) { }
 
   ngOnInit(): void {
     this.formAddTask = new FormGroup({
@@ -37,5 +39,17 @@ export class DialogComponent implements OnInit {
 
   submit() {
     console.dir(this.formAddTask.value)
+
+    const task: Task = {
+    priority: this.formAddTask.value.priority,
+  range: {
+    end: this.formAddTask.value.range.end,
+    start: this.formAddTask.value.range.start
+    },
+    category: this.formAddTask.value.category,
+    description: this.formAddTask.value.description
+    }
+    this.taskService.create<Task>(task).subscribe({})
+    console.log(task)
   }
 }

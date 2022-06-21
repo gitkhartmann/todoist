@@ -2,8 +2,12 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
-  production: false
+import { Environment } from "./interfase";
+
+export const environment:Environment = {
+  production: false,
+  apiKey: 'AIzaSyAlDYPBIq9ndp9TelkO5XTm39-ESs9SrGA',
+  fbDbUrl: 'https://todoist-t1-default-rtdb.firebaseio.com'
 };
 
 /*
