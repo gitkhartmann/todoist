@@ -21,7 +21,7 @@ export class DialogComponent implements OnInit {
       }),
       category: new FormControl(null, Validators.required),
       description: new FormControl(null, Validators.required)
-		})
+    })
   }
 
 
@@ -34,8 +34,8 @@ export class DialogComponent implements OnInit {
       default: return false
     }
   }
-  addTask() {
-    console.log(this.formAddTask.value)
-  }
 
+  submit() {
+    console.dir(this.formAddTask.value)
+  }
 }

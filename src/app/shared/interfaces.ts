@@ -1,7 +1,10 @@
-export interface TaskTableItem {
-    id: number;
-    priority: 'Высокий' | 'Средний' | 'Низкий';
-    date: Date;
+export interface Task {
+    id?: string;
+    priority: string;
+  range: {
+    end: string;
+    start: string;
+    };
     category: string;
     description: string;
   }
