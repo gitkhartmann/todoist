@@ -40,7 +40,7 @@ export class TaskService {
   }
 
   getById(id: string): Observable<ITask> {
-		return this.http.get<ITask>(`${environment.fbDbUrl}tasks/${id}.json`)
+		return this.http.get<ITask>(`${environment.fbDbUrl}/tasks/${id}.json`)
 			.pipe(map((task: ITask) => {
 				return {
 					...task, id,
@@ -49,6 +49,6 @@ export class TaskService {
   }
   
   update(task: ITask): Observable<ITask> {
-    return this.http.patch<ITask>(`${environment.fbDbUrl}tasks/${task.id}.json`, task)
+    return this.http.patch<ITask>(`${environment.fbDbUrl}/tasks/${task.id}.json`, task)
   }
 }
