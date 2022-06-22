@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -36,7 +36,7 @@ export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy/*, O
     private auth: AuthService,
     private taskService: TaskService,
     public dialog: MatDialog,
-    private alertService: AlertService
+    private alertService: AlertService,
   ) {
     this.dataSource = new TaskTableDataSource();
     
@@ -94,7 +94,8 @@ export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy/*, O
     
       this.removeTaskSubscription = this.taskService.remove(id).subscribe({
       next: () => {
-        this.tasks = this.tasks.filter(post => post.id !== id)
+          this.tasks = this.tasks.filter(post => post.id !== id);
+          
       }
     })
     

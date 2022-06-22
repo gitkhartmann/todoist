@@ -60,28 +60,25 @@ export class DialogComponent implements OnInit, OnDestroy {
       console.log(this.formAddTask)
     }
   }
+  editTaskInDialog(taskEdit: ITask) {
+    this.updateSubscription = this.taskService.update(taskEdit).subscribe()
+  }
 
   submit() {
     console.dir(this.formAddTask.value)
 
     const task: ITask = {
-    priority: this.formAddTask.value.priority,
-  range: {
-    end: this.formAddTask.value.range.end,
-    start: this.formAddTask.value.range.start
-    },
-    category: this.formAddTask.value.category,
-    description: this.formAddTask.value.description
+      priority: this.formAddTask.value.priority,
+      range: {
+        end: this.formAddTask.value.range.end,
+        start: this.formAddTask.value.range.start
+      },
+      category: this.formAddTask.value.category,
+      description: this.formAddTask.value.description
     }
-    
     this.taskService.create(task).subscribe({
-      next: () => {this.formAddTask.reset()}
-    })       
-  
+      next: () => { this.formAddTask.reset() }
+    })
     console.log(task)
-  
-
-  editTaskInDialog(task: ITask): void {
-    this.updateSubscription = this.taskService.update(task).subscribe()
   }
 }
