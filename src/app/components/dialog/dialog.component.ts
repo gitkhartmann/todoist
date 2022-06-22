@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import { TaskService } from 'src/app/services/task.service';
 import { ITask } from 'src/app/shared/interfaces';
 
@@ -9,15 +10,19 @@ import { ITask } from 'src/app/shared/interfaces';
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss']
 })
-export class DialogComponent implements OnInit {
+export class DialogComponent implements OnInit, OnDestroy {
   action: string = 'Save'
   formAddTask!: FormGroup
+  updateSubscription!: Subscription
 
   constructor(
     private taskService: TaskService,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public editTask: ITask
   ) { }
+  ngOnDestroy(): void {
+    if(this.updateSubscription) this.updateSubscription.unsubscribe()
+  }
 
   ngOnInit(): void {
     this.formAddTask = new FormGroup({
@@ -85,6 +90,6 @@ export class DialogComponent implements OnInit {
   }
 
   editTaskInDialog(task: ITask) {
-    this.taskService.update(task)
+    this.updateSubscription = this.taskService.update(task).subscribe()
   }
 }

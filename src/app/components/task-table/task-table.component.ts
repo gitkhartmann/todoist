@@ -5,10 +5,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
+import { map, Subscription, tap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { TaskService } from 'src/app/services/task.service';
 import { ITask } from '../../shared/interfaces';
+import { AlertComponent } from '../alert/alert.component';
 import { DialogComponent } from '../dialog/dialog.component';
 import { TaskTableDataSource } from './task-table-datasource';
 
@@ -16,9 +17,8 @@ import { TaskTableDataSource } from './task-table-datasource';
   selector: 'app-task-table',
   templateUrl: './task-table.component.html',
   styleUrls: ['./task-table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy, OnChanges {
+export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy/*, OnChanges*/ {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<ITask>;
@@ -31,23 +31,24 @@ export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy, OnC
   tasks!: ITask[]
   tasksSubscription!: Subscription
   removeTaskSubscription!: Subscription
-  
+  dialogSubscription!: Subscription
+  result!: boolean
 
   constructor(
     private auth: AuthService,
     private taskService: TaskService,
     public dialog: MatDialog,
-    private changeDetection: ChangeDetectorRef
   ) {
     this.dataSource = new TaskTableDataSource();
     
   }
-  ngOnChanges() {
+  /*ngOnChanges() {
     this.table.dataSource = this.dataSource;
-  }
+  }*/
   ngOnDestroy() {
     if (this.tasksSubscription) this.tasksSubscription.unsubscribe()
-    if(this.removeTaskSubscription) this.removeTaskSubscription.unsubscribe()
+    if (this.removeTaskSubscription) this.removeTaskSubscription.unsubscribe()
+    if(this.dialogSubscription) this.dialogSubscription.unsubscribe()
   }
   
   ngOnInit(): void {
@@ -84,11 +85,20 @@ export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy, OnC
   }
 
   remove(id: string) {
-    this.removeTaskSubscription =  this.taskService.remove(id).subscribe({
+    this.dialogSubscription = this.dialog.open(AlertComponent, {
+      width: '250px',
+      enterAnimationDuration: '400ms',
+      exitAnimationDuration: '100ms',
+    }).afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+    if (this.result) {
+      this.removeTaskSubscription = this.taskService.remove(id).subscribe({
       next: () => {
         this.tasks = this.tasks.filter(post => post.id !== id)
       }
-    })
+    })}
+    
   }
 }
 
