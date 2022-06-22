@@ -38,7 +38,7 @@ import { TaskService } from 'src/app/services/task.service';
  * (including sorting, pagination, and filtering).
  */
 export class TaskTableDataSource extends DataSource<ITask> {
-  data: ITask[] = [] /*= EXAMPLE_DATA*/
+  data: ITask[] = [];
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
 

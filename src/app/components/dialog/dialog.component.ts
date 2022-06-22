@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import { TaskService } from 'src/app/services/task.service';
 import { ITask } from 'src/app/shared/interfaces';
 
@@ -9,15 +10,20 @@ import { ITask } from 'src/app/shared/interfaces';
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss']
 })
-export class DialogComponent implements OnInit {
+export class DialogComponent implements OnInit, OnDestroy {
   action: string = 'Save'
   formAddTask!: FormGroup
+  updateSubscription!: Subscription
+  taskEdit!: ITask
 
   constructor(
     private taskService: TaskService,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public editTask: ITask
   ) { }
+  ngOnDestroy(): void {
+    if(this.updateSubscription) this.updateSubscription.unsubscribe()
+  }
 
   ngOnInit(): void {
     this.formAddTask = new FormGroup({
@@ -31,6 +37,7 @@ export class DialogComponent implements OnInit {
     })
 
     if (this.editTask) {
+      console.log("EDIT TASK: ", this.editTask)
       this.action = 'Update'
 
       this.formAddTask.controls['priority'].setValue(this.editTask.priority)
@@ -38,7 +45,7 @@ export class DialogComponent implements OnInit {
       this.formAddTask.controls['category'].setValue(this.editTask.category)
       this.formAddTask.controls['description'].setValue(this.editTask.description)
 
-      const task: ITask = {
+        this.taskEdit = {
               id: this.editTask.id,
           priority: this.editTask.priority,
         range: {
@@ -48,20 +55,9 @@ export class DialogComponent implements OnInit {
           category: this.editTask.category,
         description: this.editTask.description
       }
-      this.editTaskInDialog(task)
+      this.editTaskInDialog(this.taskEdit)
 
       console.log(this.formAddTask)
-    }
-  }
-
-
-  f(fieldName: string) {
-    switch (fieldName) {
-      case 'start':
-        return this.formAddTask.controls[fieldName]?.hasError('matStartDateInvalid')
-      case 'end':
-        return this.formAddTask.controls[fieldName]?.hasError('matEndDateInvalid')
-      default: return false
     }
   }
 
@@ -77,14 +73,15 @@ export class DialogComponent implements OnInit {
     category: this.formAddTask.value.category,
     description: this.formAddTask.value.description
     }
-
+    
     this.taskService.create(task).subscribe({
       next: () => {this.formAddTask.reset()}
-    })
+    })       
+  
     console.log(task)
-  }
+  
 
-  editTaskInDialog(task: ITask) {
-    this.taskService.update(task)
+  editTaskInDialog(task: ITask): void {
+    this.updateSubscription = this.taskService.update(task).subscribe()
   }
 }

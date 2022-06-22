@@ -13,7 +13,7 @@ export class TaskService {
   constructor(private http: HttpClient) { }
 
   create(task: ITask): Observable<ITask> {
-    return this.http.post(`${environment.fbDbUrl}/tasks.json`, task)
+    return this.http.post(`${environment.fbDbUrl}tasks.json`, task)
       .pipe(map((response: IFbCreateResponse) => {
           return {
             ...task,
@@ -24,7 +24,7 @@ export class TaskService {
   }
 
   getAll(): Observable<ITask[]> {
-    return this.http.get(`${environment.fbDbUrl}/tasks.json`)
+    return this.http.get(`${environment.fbDbUrl}tasks.json`)
       .pipe(map((response: { [key: string]: any }) => {
         return Object.keys(response)
           .map(key => ({
@@ -35,7 +35,7 @@ export class TaskService {
       )
   }
   remove(id: string): Observable<void> {
-    return this.http.delete<void>(`${environment.fbDbUrl}/tasks/${id}.json`)
+    return this.http.delete<void>(`${environment.fbDbUrl}tasks/${id}.json`)
     
   }
 

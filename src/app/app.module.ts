@@ -24,6 +24,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/auth.interceptor';
+import { AlertComponent } from './components/alert/alert.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatSelectModule} from '@angular/material/select';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -39,7 +42,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     DialogComponent,
     LogInComponent,
     RegisterComponent,
-    NavbarComponent
+    NavbarComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +65,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     FormsModule, 
     MatProgressSpinnerModule,
     HttpClientModule,
+    MatSnackBarModule,
+    MatSelectModule
   ],
   providers: [
     INTERCEPTOR_PROVIDER,

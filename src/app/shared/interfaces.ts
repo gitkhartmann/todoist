@@ -23,3 +23,8 @@ export interface User {
 	password: string
 	returnSecureToken?: boolean
 }
+
+export interface IAlert {
+  type: string
+  text: string
+}
