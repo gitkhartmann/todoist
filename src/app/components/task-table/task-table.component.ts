@@ -1,15 +1,13 @@
-import { ChangeDetectorRef } from '@angular/core';
-import { ChangeDetectionStrategy } from '@angular/core';
-import { AfterViewInit, Component, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { map, Subscription, tap } from 'rxjs';
+import { MatTable } from '@angular/material/table';
+import { Subscription } from 'rxjs';
+import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { TaskService } from 'src/app/services/task.service';
 import { ITask } from '../../shared/interfaces';
-import { AlertComponent } from '../alert/alert.component';
 import { DialogComponent } from '../dialog/dialog.component';
 import { TaskTableDataSource } from './task-table-datasource';
 
@@ -38,6 +36,7 @@ export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy/*, O
     private auth: AuthService,
     private taskService: TaskService,
     public dialog: MatDialog,
+    private alertService: AlertService
   ) {
     this.dataSource = new TaskTableDataSource();
     
@@ -85,19 +84,19 @@ export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy/*, O
   }
 
   remove(id: string) {
-    this.dialogSubscription = this.dialog.open(AlertComponent, {
+    /*this.dialogSubscription = this.dialog.open(AlertComponent, {
       width: '250px',
       enterAnimationDuration: '400ms',
       exitAnimationDuration: '100ms',
     }).afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
-    });
-    if (this.result) {
+    });*/
+    
       this.removeTaskSubscription = this.taskService.remove(id).subscribe({
       next: () => {
         this.tasks = this.tasks.filter(post => post.id !== id)
       }
-    })}
+    })
     
   }
 }

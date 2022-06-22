@@ -14,6 +14,7 @@ export class DialogComponent implements OnInit, OnDestroy {
   action: string = 'Save'
   formAddTask!: FormGroup
   updateSubscription!: Subscription
+  taskEdit!: ITask
 
   constructor(
     private taskService: TaskService,
@@ -36,6 +37,7 @@ export class DialogComponent implements OnInit, OnDestroy {
     })
 
     if (this.editTask) {
+      console.log("EDIT TASK: ", this.editTask)
       this.action = 'Update'
 
       this.formAddTask.controls['priority'].setValue(this.editTask.priority)
@@ -43,7 +45,7 @@ export class DialogComponent implements OnInit, OnDestroy {
       this.formAddTask.controls['category'].setValue(this.editTask.category)
       this.formAddTask.controls['description'].setValue(this.editTask.description)
 
-      const task: ITask = {
+        this.taskEdit = {
               id: this.editTask.id,
           priority: this.editTask.priority,
         range: {
@@ -53,20 +55,9 @@ export class DialogComponent implements OnInit, OnDestroy {
           category: this.editTask.category,
         description: this.editTask.description
       }
-      this.editTaskInDialog(task)
+      this.editTaskInDialog(this.taskEdit)
 
       console.log(this.formAddTask)
-    }
-  }
-
-
-  f(fieldName: string) {
-    switch (fieldName) {
-      case 'start':
-        return this.formAddTask.controls[fieldName]?.hasError('matStartDateInvalid')
-      case 'end':
-        return this.formAddTask.controls[fieldName]?.hasError('matEndDateInvalid')
-      default: return false
     }
   }
 
@@ -82,14 +73,15 @@ export class DialogComponent implements OnInit, OnDestroy {
     category: this.formAddTask.value.category,
     description: this.formAddTask.value.description
     }
-
+    
     this.taskService.create(task).subscribe({
       next: () => {this.formAddTask.reset()}
-    })
+    })       
+  
     console.log(task)
-  }
+  
 
-  editTaskInDialog(task: ITask) {
+  editTaskInDialog(task: ITask): void {
     this.updateSubscription = this.taskService.update(task).subscribe()
   }
 }

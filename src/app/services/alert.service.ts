@@ -6,7 +6,12 @@ import { IAlert } from '../shared/interfaces';
   providedIn: 'root'
 })
 export class AlertService {
+  flag: boolean = false
 
   public alert$ = new Subject<IAlert>()
   constructor() { }
+
+  toggleFlag() {
+    this.flag = true
+  }
 }
