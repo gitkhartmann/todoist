@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { DialogComponent } from '../components/dialog/dialog.component';
 import { IFbCreateResponse, ITask } from '../shared/interfaces';
 
 

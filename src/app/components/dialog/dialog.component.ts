@@ -29,12 +29,15 @@ export class DialogComponent implements OnInit {
       category: new FormControl(null, Validators.required),
       description: new FormControl(null, Validators.required)
     })
+
     if (this.editTask) {
       this.action = 'Update'
+
       this.formAddTask.controls['priority'].setValue(this.editTask.priority)
       this.formAddTask.controls['range'].setValue(this.editTask.range)
       this.formAddTask.controls['category'].setValue(this.editTask.category)
       this.formAddTask.controls['description'].setValue(this.editTask.description)
+
       const task: ITask = {
               id: this.editTask.id,
           priority: this.editTask.priority,
@@ -49,7 +52,6 @@ export class DialogComponent implements OnInit {
 
       console.log(this.formAddTask)
     }
-    console.log("EDITOR TASK: ",this.editTask)
   }
 
 

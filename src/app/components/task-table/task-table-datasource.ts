@@ -95,9 +95,9 @@ export class TaskTableDataSource extends DataSource<ITask> {
     return data.sort((a, b) => {
       const isAsc = this.sort?.direction === 'asc';
       switch (this.sort?.active) {
-        case 'priority': return compare(a.priority, b.priority, isAsc);
-        case 'date': return compare(+a.range.end, +b.range.end, isAsc);
-        case 'category': return compare(a.category, b.category, isAsc);
+        case 'priority': return compare(a.priority.toLowerCase(), b.priority.toLowerCase(), isAsc);
+        case 'date': return compare(+new Date(a.range.end), +new Date(b.range.end), isAsc);
+        case 'category': return compare(a.category.toLowerCase(), b.category.toLowerCase(), isAsc);
         default: return 0;
       }
     });

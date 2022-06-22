@@ -1,3 +1,4 @@
+import { ChangeDetectorRef } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { AfterViewInit, Component, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,6 +16,7 @@ import { TaskTableDataSource } from './task-table-datasource';
   selector: 'app-task-table',
   templateUrl: './task-table.component.html',
   styleUrls: ['./task-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy, OnChanges {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -29,13 +31,16 @@ export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy, OnC
   tasks!: ITask[]
   tasksSubscription!: Subscription
   removeTaskSubscription!: Subscription
+  
 
   constructor(
     private auth: AuthService,
     private taskService: TaskService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private changeDetection: ChangeDetectorRef
   ) {
     this.dataSource = new TaskTableDataSource();
+    
   }
   ngOnChanges() {
     this.table.dataSource = this.dataSource;
@@ -72,7 +77,10 @@ export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy, OnC
   }
 
   editTask(row: ITask) {
-    this.dialog.open(DialogComponent,{width: '30%', data: row})
+    this.dialog.open(DialogComponent, { width: '30%', data: row })
+      .afterClosed().subscribe(value => {
+        if(value === 'Save') this.taskService.getAll()
+      })
   }
 
   remove(id: string) {
