@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AlertService } from 'src/app/services/alert.service';
+import { TaskService } from 'src/app/services/task.service';
 
 
 @Component({
@@ -11,7 +12,9 @@ import { AlertService } from 'src/app/services/alert.service';
 export class AlertComponent {
   
   constructor(
-    public dialogRef: MatDialogRef<AlertComponent>
+    private dialog: MatDialog,
+    public dialogRef: MatDialogRef<AlertComponent>,
+    private taskService: TaskService
   ) { }
   
 }

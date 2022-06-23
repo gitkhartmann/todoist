@@ -8,6 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { TaskService } from 'src/app/services/task.service';
 import { ITask } from 'src/app/shared/interfaces';
+import { AlertComponent } from '../alert/alert.component';
 import { DialogComponent } from '../dialog/dialog.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 
@@ -135,13 +136,13 @@ export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   remove(id: string) {
-    /*this.dialog.open(AlertComponent, {
+    this.dialog.open(AlertComponent, {
       width: '250px',
       enterAnimationDuration: '400ms',
       exitAnimationDuration: '100ms',
     }).afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
-    });*/
+    });
     
       this.taskService.remove(id).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {

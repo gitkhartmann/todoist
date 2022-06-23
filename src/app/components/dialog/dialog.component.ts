@@ -1,11 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
-import { AlertService } from 'src/app/services/alert.service';
 import { TaskService } from 'src/app/services/task.service';
 import { ITask } from 'src/app/shared/interfaces';
-import { TasksTableComponent } from '../tasks-table/tasks-table.component';
 
 @Component({
   selector: 'app-dialog',
@@ -29,22 +26,22 @@ export class DialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.formAddTask = new FormGroup({
-			priority: new FormControl(null, Validators.required),
-			range: new FormGroup({
+      priority: new FormControl(null, Validators.required),
+      range: new FormGroup({
         start: new FormControl(null, Validators.required),
         end: new FormControl(null, Validators.required),
       }),
       category: new FormControl(null, Validators.required),
       description: new FormControl(null, Validators.required)
-    })
+    });
 
     if (this.editTask) {
-      this.action = 'Update'
+      this.action = 'Update';
 
-      this.formAddTask.controls['priority'].setValue(this.editTask.priority)
-      this.formAddTask.controls['range'].setValue(this.editTask.range)
-      this.formAddTask.controls['category'].setValue(this.editTask.category)
-      this.formAddTask.controls['description'].setValue(this.editTask.description)
+      this.formAddTask.controls['priority'].setValue(this.editTask.priority);
+      this.formAddTask.controls['range'].setValue(this.editTask.range);
+      this.formAddTask.controls['category'].setValue(this.editTask.category);
+      this.formAddTask.controls['description'].setValue(this.editTask.description);
       
         this.taskEdit = {
               id: this.editTask.id,
@@ -69,18 +66,11 @@ export class DialogComponent implements OnInit, OnDestroy {
           category: this.formAddTask.value.category,
           description: this.formAddTask.value.description
     }
-    console.log('НОВЫЕ ДАННЫЕ' + JSON.stringify(task))
-    /*this.taskService.newUpdate(task)
-      .then((val) => {
-        this.dialogRef.close('Update');
-        this.formAddTask.reset();
-        console.log(val)
-      })*/
+    
     this.taskService.update(task).subscribe({
       next: () => {
         this.dialogRef.close('Update');
         this.formAddTask.reset();
-        
       },
       error: (error) => {new Error("ОШИБКА ОТПРАВКИ ИЗМЕНЕНИЙ: " + error)}
     })
