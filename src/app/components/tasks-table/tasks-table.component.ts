@@ -1,16 +1,16 @@
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import { lastValueFrom, Observable, Subject } from 'rxjs';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { TaskService } from 'src/app/services/task.service';
 import { ITask } from 'src/app/shared/interfaces';
 import { AlertComponent } from '../alert/alert.component';
 import { DialogComponent } from '../dialog/dialog.component';
-import { NavbarComponent } from '../navbar/navbar.component';
+
 
 @Component({
   selector: 'app-tasks-table',
@@ -22,22 +22,18 @@ export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy {
   displayedColumns: string[] = ['priority', 'date', 'category', 'description', 'action'];
   dataSource!: MatTableDataSource<ITask>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  tasks!: ITask[]
   
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
-  @ViewChild(NavbarComponent)
-  navBar!: NavbarComponent;
-  
 
   constructor(
     private auth: AuthService,
     private taskService: TaskService,
     public dialog: MatDialog,
   ) {
-    this.dataSource = new MatTableDataSource(/*this.tasks*/);
+    this.dataSource = new MatTableDataSource();
   }
 
   ngOnDestroy(): void {
@@ -46,90 +42,82 @@ export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy {
   }
   
   ngOnInit(): void {
-    this.auth.getAcces()
+    this.auth.getAcces();
     
     if (this.auth.isAuthenticated()) {
-      this.auth.getDetailsUser().subscribe({
+      this.auth.getDetailsUser()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
         next: data => {
           this.user.displayName = data.users[0].displayName
           this.user.localId = data.users[0].localId
         }
-      })
+      });
     }
-    this.getAllTasks()
 
-    this.taskService.flag$.pipe(takeUntil(this.destroy$)).subscribe({
-      next: value => {
-        console.log('FLAG CHANGE: ', value)
-        setTimeout(() => {
-          this.getAllTasks()
-        }, 300);
-      }
-    })
+    this.getAllTasks();
+
+    this.taskService.flag$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          setTimeout(() => {
+            this.getAllTasks();
+          }, 500);
+        }
+      });
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  /*openDialog() { 
-    this.dialog
-      .open(DialogComponent, { width: '30%' })
-      .afterClosed().subscribe((val) => {
-        if(val === 'Save') this.getAllTasks()
-        console.log(val)
-      })
-  }*/
   
-  /*editProduct(row: ITask) { 
-    this.dialog.open(DialogComponent, { width: '30%', data: row })
-    .afterClosed().subscribe((val) => {
-      if(val === 'Update') this.getAllTasks()
-      console.log(val)
-    })
-  }*/
-
-  getAllTasks() {
-    this.taskService.getAll().pipe(takeUntil(this.destroy$)).subscribe({
+  getAllTasks(): void  {
+    this.taskService.getAll()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
       next: tasks => {
         this.dataSource = new MatTableDataSource(tasks);
-        this.dataSource.data = tasks
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-      }, error: (error) => {new Error('Failed to get data from server: ' + error)}
-    })
+      }, error: (error) => { new Error('Failed to get data from server: ' + error); }
+    });
   }
 
-  editTask(row: ITask) {
+  editTask(row: ITask): void  {
     this.dialog
       .open(DialogComponent, { width: '30%', data: row })
-      .afterClosed().pipe(takeUntil(this.destroy$)).subscribe({
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
         next: () => {
           setTimeout(() => {
             this.getAllTasks();
           }, 500);
         }
-        })
+      });
   }
 
-  remove(id: string) {
-    
+  remove(id: string): void  {
     this.dialog.open(AlertComponent, {
       width: '250px',
       enterAnimationDuration: '400ms',
       exitAnimationDuration: '100ms',
-    }).afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-    
-      this.taskService.remove(id).pipe(takeUntil(this.destroy$)).subscribe({
-      next: () => {
-          this.getAllTasks()
-        }, error: (error) => {
-          new Error('ERROR DELETE: ' + error)
+    }).afterClosed().pipe(takeUntil(this.destroy$))
+      .subscribe(result => {
+      if (result === 'Ok') {
+        this.taskService.remove(id)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+          next: () => {
+            this.getAllTasks();
+          }, error: (error) => {
+            new Error('DELETE ERROR : ' + error);
+          }
+        });
       }
-    })
-    
+    });
   }
 
   applyFilter(event: Event): void {

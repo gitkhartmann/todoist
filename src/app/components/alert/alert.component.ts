@@ -1,8 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AlertService } from 'src/app/services/alert.service';
-import { TaskService } from 'src/app/services/task.service';
-
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-alert',
@@ -13,10 +10,13 @@ export class AlertComponent {
   
   constructor(
     public dialogRef: MatDialogRef<AlertComponent>,
-    public dialog: MatDialog,
   ) { }
-  /*.pipe(takeUntil(this.destroy$)) */
-  deleteTask() {
-    
+
+  deleteTask(): void {
+    this.dialogRef.close('Ok')
+  }
+
+  cancel(): void {
+    this.dialogRef.close('No')
   }
 }
