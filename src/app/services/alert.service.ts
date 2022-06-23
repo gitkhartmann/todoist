@@ -12,6 +12,6 @@ export class AlertService {
   constructor() { }
 
   toggleFlag() {
-    this.flag = true
+    this.flag = !this.flag
   }
 }

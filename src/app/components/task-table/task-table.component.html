@@ -29,11 +29,11 @@
       <td mat-cell *matCellDef="let row">{{row.description}}</td>
     </ng-container>
 
-    <!-- Name Description mat-sort-header -->
+    <!-- Name Description mat-sort-header (click)="editTask(row)" -->
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef >Action</th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button><mat-icon class="transition" (click)="editTask(row)">create</mat-icon></button>
+        <button mat-icon-button><mat-icon class="transition" >create</mat-icon></button>
         <button mat-icon-button><mat-icon class="transition" (click)="remove(row.id)">delete</mat-icon></button>
       </td>
     </ng-container>

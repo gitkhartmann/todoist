@@ -1,0 +1,36 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}
+
+.full-width-table {
+  width: 100%;
+}
+
+mat-icon {
+  margin: 0 0.3rem
+}
+mat-icon:hover {
+  transform: scale(1.2);
+  color: red
+}
+.transition{
+  transition: 1s;
+}
+
+.mat-elevation-z8 {
+  max-width: 920px;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+.mat-elevation-z8__mw {
+  width: 100%;
+}

@@ -63,11 +63,11 @@ export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy/*, O
     }
     this.tasksSubscription = this.taskService.getAll().subscribe({
       next: tasks => {
-        this.tasks = tasks
-        this.dataSource.data = tasks
-        this.table.dataSource = this.dataSource;
-      }
-    })
+        this.tasks = tasks}
+      })
+        /*this.dataSource.data = tasks
+        this.table.dataSource = this.dataSource;*/
+      
   }
 
   ngAfterViewInit(): void {
@@ -76,12 +76,12 @@ export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy/*, O
     /*this.table.dataSource = this.dataSource;*/
   }
 
-  editTask(row: ITask) {
+  /*editTask(row: ITask) {
     this.dialog.open(DialogComponent, { width: '30%', data: row })
       .afterClosed().subscribe(value => {
-        if(value === 'Save') this.taskService.getAll()
+        if(value === 'Update') this.taskService.getAll()
       })
-  }
+  }*/
 
   remove(id: string) {
     /*this.dialogSubscription = this.dialog.open(AlertComponent, {
@@ -90,7 +90,7 @@ export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy/*, O
       exitAnimationDuration: '100ms',
     }).afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
-    });*/
+    });
     
       this.removeTaskSubscription = this.taskService.remove(id).subscribe({
       next: () => {
@@ -98,7 +98,7 @@ export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy/*, O
           
       }
     })
-    
+    */
   }
 }
 

@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>Add task</h2>
-<form [formGroup]="formAddTask" (ngSubmit)="submit()">
+<form [formGroup]="formAddTask">
 <mat-dialog-content class="mat-typography">
-		<!--Обозначение приоритета-->
+		<!--Обозначение приоритета  (ngSubmit)="submit()"-->
 		
     <mat-form-field appearance="outline">
         <mat-label>Designate a priority</mat-label>
@@ -21,19 +21,7 @@
 				<mat-date-range-picker #picker></mat-date-range-picker>
 				<mat-error *ngIf="formAddTask.controls['start']?.hasError('matStartDateInvalid')">Invalid start date</mat-error>
     		<mat-error *ngIf="formAddTask.controls['end']?.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-				<!--
-					<mat-form-field appearance="fill">
-    <mat-label>Input disabled</mat-label>
-    <input matInput [matDatepicker]="dp3" disabled>
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-  </mat-form-field>
-				<mat-error *ngIf="f('start')">Invalid start date</mat-error>
-				<mat-error *ngIf="f('end')">Invalid start date</mat-error>
-				-->
 			</mat-form-field>
-		
 		</div>
 		<!--Выбор категории-->
 		<mat-form-field appearance="outline">
@@ -51,6 +39,6 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button type="submit" mat-button [mat-dialog-close]="true" cdkFocusInitial [disabled]="formAddTask.invalid">{{action}}</button>
+  <button type="submit" mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="submit()" [disabled]="formAddTask.invalid">{{action}}</button>
 </mat-dialog-actions>
 </form>
