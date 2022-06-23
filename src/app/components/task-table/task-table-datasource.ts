@@ -6,32 +6,6 @@ import { Observable, of as observableOf, merge } from 'rxjs';
 import { ITask } from '../../shared/interfaces';
 import { TaskService } from 'src/app/services/task.service';
 
-
-
-// TODO: replace this with real data from your application
-/*const EXAMPLE_DATA: ITask[] = [
-  {priority: 'Высокий', id: '1', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Спорт', description: 'lorekadfbvbfavkkafvblusnaum20'},
-  {priority: 'Низкий', id: '2',  range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Отдых', description: 'lorkadfbvbfavkkafvblusnauem0'},
-  {priority: 'Высокий', id: '3', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Работа', description: 'lorkadfbvbfavkkafvblusnauem0'},
-  {priority: 'Высокий', id: '4', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Хобби', description: 'lorkadfbvbfavkkafvblusnauem0'},
-  {priority: 'Низкий', id: '5', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Спорт', description: 'lorekadfbvbfavkkafvblusnaum20'},
-  {priority: 'Высокий', id: '6', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Отдых', description: 'lorekadfbvbfavkkafvblusnaum20'},
-  {priority: 'Высокий', id: '7', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Работа', description: 'lorekadfbvbfavkkafvblusnaum20'},
-  {priority: 'Средний', id: '8', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Хобби', description: 'lorekadfbvbfavkkafvblusnaum20'},
-  {priority: 'Средний', id: '9', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Спорт', description: 'lorekadfbvbfavkkafvblusnaum20'},
-  {priority: 'Низкий', id: '10', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Отдых', description: 'lorekadfbvbfavkkafvblusnaum20'},
-  {priority: 'Высокий', id: '11', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Работа', description: 'lorkadfbvbfavkkafvblusnauem0'},
-  {priority: 'Низкий', id: '12', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Хобби', description: 'lorkadfbvbfavkkafvblusnauem0'},
-  {priority: 'Средний', id: '13', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Спорт', description: 'lorkadfbvbfavkkafvblusnauem0'},
-  {priority: 'Высокий', id: '14', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Отдых', description: 'lorekadfbvbfavkkafvblusnaum20'},
-  {priority: 'Высокий', id: '15', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Работа', description: 'lorkadfbvbfavkkafvblusnauem0'},
-  {priority: 'Средний', id: '16', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Хобби', description: 'lorkadfbvbfavkkafvblusnauem0'},
-  {priority: 'Средний', id: '17', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Спорт', description: 'lorkadfbvbfavkkafvblusnauem0'},
-  {priority: 'Высокий', id: '18', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Отдых', description: 'lorekadfbvbfavkkafvblusnaum20'},
-  {priority: 'Средний', id: '19', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Работа', description: 'lorekadfbvbfavkkafvblusnaum20'},
-  {priority: 'Высокий', id: '20', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Хобби', description: 'lorekadfbvbfavkkafvblusnaum20'},
-];*/
-
 /**
  * Data source for the TaskTable view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data

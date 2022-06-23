@@ -136,6 +136,7 @@ export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   remove(id: string) {
+    
     this.dialog.open(AlertComponent, {
       width: '250px',
       enterAnimationDuration: '400ms',

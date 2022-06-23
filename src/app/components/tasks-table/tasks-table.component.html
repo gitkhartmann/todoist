@@ -16,7 +16,7 @@
     <!-- Deadline Column | date: 'dd.MM.yy' -->
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Deadline </th>
-      <td mat-cell *matCellDef="let row"> с {{row.range.start}} по {{row.range.end}} </td>
+      <td mat-cell *matCellDef="let row"> с {{row.range.start | date: 'dd.MM.yy'}} по {{row.range.end | date: 'dd.MM.yy'}} </td>
     </ng-container>
 
     <!-- Category Column -->

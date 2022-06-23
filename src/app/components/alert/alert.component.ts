@@ -12,9 +12,11 @@ import { TaskService } from 'src/app/services/task.service';
 export class AlertComponent {
   
   constructor(
-    private dialog: MatDialog,
     public dialogRef: MatDialogRef<AlertComponent>,
-    private taskService: TaskService
+    public dialog: MatDialog,
   ) { }
-  
+  /*.pipe(takeUntil(this.destroy$)) */
+  deleteTask() {
+    
+  }
 }
