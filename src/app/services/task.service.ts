@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IFbCreateResponse, ITask } from '../shared/interfaces';
 
@@ -10,8 +10,14 @@ import { IFbCreateResponse, ITask } from '../shared/interfaces';
 })
 export class TaskService {
 
+  public flag$ = new Subject<boolean>();
+
   constructor(private http: HttpClient) { }
 
+  public changeFlag(flag: boolean) {
+    this.flag$.next(flag); 
+  }
+  
   create(task: ITask): Observable<ITask> {
     return this.http.post(`${environment.fbDbUrl}tasks.json`, task)
       .pipe(map((response: IFbCreateResponse) => {

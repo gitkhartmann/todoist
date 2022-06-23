@@ -39,14 +39,13 @@ export class DialogComponent implements OnInit, OnDestroy {
     })
 
     if (this.editTask) {
-      console.log("EDIT TASK: ", this.editTask)
       this.action = 'Update'
 
       this.formAddTask.controls['priority'].setValue(this.editTask.priority)
       this.formAddTask.controls['range'].setValue(this.editTask.range)
       this.formAddTask.controls['category'].setValue(this.editTask.category)
       this.formAddTask.controls['description'].setValue(this.editTask.description)
-      /*В ИДЕАЛЕ, НЕ НУЖНО БОЛЬШЕ КОДА ТУТ */
+      
         this.taskEdit = {
               id: this.editTask.id,
           priority: this.editTask.priority,
@@ -57,12 +56,9 @@ export class DialogComponent implements OnInit, OnDestroy {
           category: this.editTask.category,
         description: this.editTask.description
       }
-      /*this.editTaskInDialog(this.taskEdit)*/
-
-      console.log("ВОТ ЭТО ЧТОЛИ",this.formAddTask)
     }
   }
-  editTaskInDialog() {/*UPDATE PRODUCT */
+  editTaskInDialog() {
     const task: ITask = {
           id: this.editTask.id,
           priority: this.formAddTask.value.priority,
@@ -73,7 +69,13 @@ export class DialogComponent implements OnInit, OnDestroy {
           category: this.formAddTask.value.category,
           description: this.formAddTask.value.description
     }
-    console.log('НОВЫЕ ДАННЫЕ'+ JSON.stringify(task) )
+    console.log('НОВЫЕ ДАННЫЕ' + JSON.stringify(task))
+    /*this.taskService.newUpdate(task)
+      .then((val) => {
+        this.dialogRef.close('Update');
+        this.formAddTask.reset();
+        console.log(val)
+      })*/
     this.taskService.update(task).subscribe({
       next: () => {
         this.dialogRef.close('Update');
@@ -84,9 +86,8 @@ export class DialogComponent implements OnInit, OnDestroy {
     })
   }
 
-  submit() {/*ADD PRODUCT */
+  submit() {
     if (!this.editTask) {
-      console.log("ЭТО ФОРМА НОВОЙ ЗАДАЧИ: ", this.formAddTask.value)
 
     const task: ITask = {
       priority: this.formAddTask.value.priority,
@@ -96,18 +97,16 @@ export class DialogComponent implements OnInit, OnDestroy {
       },
       category: this.formAddTask.value.category,
       description: this.formAddTask.value.description
-    }
+      }
+      
     this.taskService.create(task).subscribe({
       next: () => {
-        this.dialogRef.close('Save');
+        this.dialogRef.close("Save");
         this.formAddTask.reset();
       }
     })
-      
-      
-    console.log(task)
     } else {
-      this.editTaskInDialog()
+      this.editTaskInDialog();
     }
     
   }

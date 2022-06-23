@@ -1,15 +1,15 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import { Subject } from 'rxjs';
+import { lastValueFrom, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { TaskService } from 'src/app/services/task.service';
 import { ITask } from 'src/app/shared/interfaces';
 import { DialogComponent } from '../dialog/dialog.component';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 const EXAMPLE_DATA: ITask[] = [
   {priority: 'Высокий', id: '1', range:{ end: '23.06.2022', start: '16.06.2022'}, category: 'Спорт', description: 'lorekadfbvbfavkkafvblusnaum20'},
@@ -37,27 +37,31 @@ const EXAMPLE_DATA: ITask[] = [
 @Component({
   selector: 'app-tasks-table',
   templateUrl: './tasks-table.component.html',
-  styleUrls: ['./tasks-table.component.scss']
+  styleUrls: ['./tasks-table.component.scss'],
 })
 export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy {
   user = { localId: '', displayName: '' }
   displayedColumns: string[] = ['priority', 'date', 'category', 'description', 'action'];
-  dataSource: MatTableDataSource<ITask>;
+  dataSource!: MatTableDataSource<ITask>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  
+  tasks!: ITask[]
   
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
+  @ViewChild(NavbarComponent)
+  navBar!: NavbarComponent;
+  
 
   constructor(
     private auth: AuthService,
     private taskService: TaskService,
     public dialog: MatDialog,
   ) {
-    this.dataSource = new MatTableDataSource(EXAMPLE_DATA);
+    this.dataSource = new MatTableDataSource(/*this.tasks*/);
   }
+
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
@@ -75,21 +79,30 @@ export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy {
       })
     }
     this.getAllTasks()
+
+    this.taskService.flag$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: value => {
+        console.log('FLAG CHANGE: ', value)
+        setTimeout(() => {
+          this.getAllTasks()
+        }, 300);
+      }
+    })
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  openDialog() { 
+  /*openDialog() { 
     this.dialog
       .open(DialogComponent, { width: '30%' })
       .afterClosed().subscribe((val) => {
         if(val === 'Save') this.getAllTasks()
         console.log(val)
       })
-  }
-
+  }*/
+  
   /*editProduct(row: ITask) { 
     this.dialog.open(DialogComponent, { width: '30%', data: row })
     .afterClosed().subscribe((val) => {
@@ -98,29 +111,31 @@ export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy {
     })
   }*/
 
-  getAllTasks() {/*GETALLPRODUCTS */
+  getAllTasks() {
     this.taskService.getAll().pipe(takeUntil(this.destroy$)).subscribe({
       next: tasks => {
         this.dataSource = new MatTableDataSource(tasks);
+        this.dataSource.data = tasks
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       }, error: (error) => {new Error('Failed to get data from server: ' + error)}
     })
   }
 
-  editTask(row: ITask) {/*editproduct .pipe(takeUntil(this.destroy$))*/
+  editTask(row: ITask) {
     this.dialog
       .open(DialogComponent, { width: '30%', data: row })
       .afterClosed().pipe(takeUntil(this.destroy$)).subscribe({
         next: () => {
-        this.getAllTasks()
-        console.log('EDITTASK METOD', this.getAllTasks());
+          setTimeout(() => {
+            this.getAllTasks();
+          }, 500);
         }
-      })
+        })
   }
 
   remove(id: string) {
-    /*this.dialogSubscription = this.dialog.open(AlertComponent, {
+    /*this.dialog.open(AlertComponent, {
       width: '250px',
       enterAnimationDuration: '400ms',
       exitAnimationDuration: '100ms',

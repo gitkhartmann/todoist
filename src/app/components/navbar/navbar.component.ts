@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { TaskService } from 'src/app/services/task.service';
 import { DialogComponent } from '../dialog/dialog.component';
+import { TasksTableComponent } from '../tasks-table/tasks-table.component';
 
 @Component({
   selector: 'app-navbar',
@@ -10,19 +12,21 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  flag: boolean = false
 
   constructor(
     private dialog: MatDialog,
-    protected auth: AuthService
+    protected auth: AuthService,
+    private taskServise: TaskService
   ) { }
-
+  
   ngOnInit(): void {
   }
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogComponent, {width: '30%'});
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      this.taskServise.changeFlag(result)
     });
   }
 

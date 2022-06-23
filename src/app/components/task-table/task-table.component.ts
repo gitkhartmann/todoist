@@ -53,7 +53,7 @@ export class TaskTableComponent implements AfterViewInit, OnInit, OnDestroy/*, O
   ngOnInit(): void {
     this.auth.getAcces()
 
-    if (this.auth.isAuthenticated()) {
+    /*if (this.auth.isAuthenticated()) {
       this.auth.getDetailsUser().subscribe({
         next: data => {
           this.user.displayName = data.users[0].displayName
