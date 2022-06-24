@@ -11,11 +11,11 @@ import { ITask } from 'src/app/shared/interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogComponent implements OnInit {
-  flag = true;
+  flag: boolean = true;
   action: string = 'Save';
   formAddTask!: FormGroup;
   taskEdit!: ITask;
-
+  
   constructor(
     private taskService: TaskService,
     public dialog: MatDialog,
@@ -54,6 +54,7 @@ export class DialogComponent implements OnInit {
       };
     }
   }
+
   editTaskInDialog(): void {
     const task: ITask = {
       id: this.editTask.id,
@@ -66,7 +67,8 @@ export class DialogComponent implements OnInit {
       description: this.formAddTask.value.description
     };
     
-    this.taskService.update(task).subscribe({
+    this.taskService.update(task)
+      .subscribe({
       next: () => {
         this.dialogRef.close('Update');
         this.formAddTask.reset();
@@ -75,7 +77,7 @@ export class DialogComponent implements OnInit {
     });
   }
 
-  submit() {
+  submit(): void {
     if (!this.editTask) {
 
       const task: ITask = {
@@ -88,7 +90,8 @@ export class DialogComponent implements OnInit {
         description: this.formAddTask.value.description
       };
       
-      this.taskService.create(task).subscribe({
+      this.taskService.create(task)
+        .subscribe({
         next: () => {
           this.dialogRef.close("Save");
           this.formAddTask.reset();
