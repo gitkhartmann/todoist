@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/shared/interfaces';
 
@@ -9,7 +11,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
-}
+};
 
 @Component({
   selector: 'app-log-in',
@@ -21,45 +23,47 @@ export class LogInComponent implements OnInit {
   loading: boolean = false;
   logInForm!: FormGroup;
   matcher = new MyErrorStateMatcher();
+  destroy$: Subject<boolean> = new Subject<boolean>();
   
   constructor( private auth:AuthService ) { }
 
-  ngOnInit(): void {
-    this.logInForm = new FormGroup({
-			emailFormControl: new FormControl('', [Validators.required, Validators.email]),
-      passwordFormControl: new FormControl(null, [Validators.required, Validators.minLength(6)]),
-    })
-    this.auth.canAuthenticate()
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
-  submit() {
-    const user: User = {
-      email: this.logInForm.value.emailFormControl,
-      password: this.logInForm.value.passwordFormControl
-    }
+  ngOnInit(): void {
+    this.logInForm = new FormGroup({
+      emailFormControl: new FormControl('', [Validators.required, Validators.email]),
+      passwordFormControl: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+    });
+    this.auth.canAuthenticate();
+  }
+
+  submit(): void {
     this.loading = true
-    this.auth.login(this.logInForm.value.emailFormControl, this.logInForm.value.passwordFormControl)
+    
+    this.auth.login(
+      this.logInForm.value.emailFormControl,
+      this.logInForm.value.passwordFormControl
+    )
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: data => {
-          this.logInForm.reset()
-          this.auth.setToken(data)
-          console.log('login with token id:', data.idToken, data.expiresIn)
-          this.auth.canAuthenticate()
+          this.logInForm.reset();
+          this.auth.setToken(data);
+          this.auth.canAuthenticate();
         },
         error: data => {
           console.log(data.error.error.message)
         }
       }).add(() => {
-        this.loading = false
-        console.log('Login complete')
-      })
-    console.dir(this.logInForm.value)
+        this.loading = false;
+        console.log('Login complete');
+      });
   }
 
-  reset() {
-    this.logInForm.reset()
+  reset(): void {
+    this.logInForm.reset();
   }
-
-  
-
 }
