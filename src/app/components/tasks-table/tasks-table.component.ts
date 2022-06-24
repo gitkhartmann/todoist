@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DoCheck, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -17,12 +17,15 @@ import { DialogComponent } from '../dialog/dialog.component';
   templateUrl: './tasks-table.component.html',
   styleUrls: ['./tasks-table.component.scss'],
 })
-export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy {
-  user = { localId: '', displayName: '' }
-  displayedColumns: string[] = ['priority', 'date', 'category', 'description', 'action'];
+export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy, DoCheck {
+  user = { localId: '', displayName: '' };
+  displayedColumns: string[] =
+    ['priority', 'dateStart', 'dateEnd', 'category', 'description', 'action'];
   dataSource!: MatTableDataSource<ITask>;
   destroy$: Subject<boolean> = new Subject<boolean>();
   
+  @Input('input')
+  value!: string
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
@@ -34,6 +37,18 @@ export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy {
     public dialog: MatDialog,
   ) {
     this.dataSource = new MatTableDataSource();
+  }
+  
+  ngDoCheck(): void {
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'priority': return item.priority.toLowerCase();
+        case 'dateStart': return new Date(item.range.start).valueOf();
+        case 'dateEnd': return new Date(item.range.end).valueOf();
+        case 'category': return item.category.toLowerCase();
+        default: return item['range']['end'];
+      }
+    };
   }
 
   ngOnDestroy(): void {
@@ -49,12 +64,12 @@ export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
         next: data => {
-          this.user.displayName = data.users[0].displayName
-          this.user.localId = data.users[0].localId
+            this.user.displayName = data.users[0].displayName;
+            this.user.localId = data.users[0].localId;
         }
       });
     }
-
+    
     this.getAllTasks();
 
     this.taskService.flag$
@@ -81,7 +96,9 @@ export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy {
         this.dataSource = new MatTableDataSource(tasks);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-      }, error: (error) => { new Error('Failed to get data from server: ' + error); }
+        }, error: (error) => {
+          new Error('Failed to get data from server: ' + error);
+        }
     });
   }
 
@@ -104,7 +121,8 @@ export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy {
       width: '250px',
       enterAnimationDuration: '400ms',
       exitAnimationDuration: '100ms',
-    }).afterClosed().pipe(takeUntil(this.destroy$))
+    }).afterClosed()
+      .pipe(takeUntil(this.destroy$))
       .subscribe(result => {
       if (result === 'Ok') {
         this.taskService.remove(id)
