@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/shared/interfaces';
 
@@ -15,18 +14,15 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-log-in',
   templateUrl: './log-in.component.html',
-  styleUrls: ['./log-in.component.scss']
+  styleUrls: ['./log-in.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LogInComponent implements OnInit {
-  loading: boolean = false
-  logInForm!: FormGroup
-
+  loading: boolean = false;
+  logInForm!: FormGroup;
   matcher = new MyErrorStateMatcher();
   
-  constructor(
-    private router: Router,
-    private auth:AuthService
-  ) { }
+  constructor( private auth:AuthService ) { }
 
   ngOnInit(): void {
     this.logInForm = new FormGroup({

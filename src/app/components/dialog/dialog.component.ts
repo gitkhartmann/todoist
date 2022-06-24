@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TaskService } from 'src/app/services/task.service';
@@ -8,12 +8,13 @@ import { ITask } from 'src/app/shared/interfaces';
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogComponent implements OnInit, OnDestroy {
+export class DialogComponent implements OnInit {
   flag = true;
-  action: string = 'Save'
-  formAddTask!: FormGroup
-  taskEdit!: ITask
+  action: string = 'Save';
+  formAddTask!: FormGroup;
+  taskEdit!: ITask;
 
   constructor(
     private taskService: TaskService,
@@ -21,8 +22,6 @@ export class DialogComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public editTask: ITask,
     private dialogRef: MatDialogRef<DialogComponent>,
   ) { }
-  ngOnDestroy(): void {
-  }
 
   ngOnInit(): void {
     this.formAddTask = new FormGroup({
@@ -43,61 +42,60 @@ export class DialogComponent implements OnInit, OnDestroy {
       this.formAddTask.controls['category'].setValue(this.editTask.category);
       this.formAddTask.controls['description'].setValue(this.editTask.description);
       
-        this.taskEdit = {
-              id: this.editTask.id,
-          priority: this.editTask.priority,
+      this.taskEdit = {
+        id: this.editTask.id,
+        priority: this.editTask.priority,
         range: {
           end: this.editTask.range.end,
           start: this.editTask.range.start,
-          },
-          category: this.editTask.category,
+        },
+        category: this.editTask.category,
         description: this.editTask.description
-      }
+      };
     }
   }
-  editTaskInDialog() {
+  editTaskInDialog(): void {
     const task: ITask = {
-          id: this.editTask.id,
-          priority: this.formAddTask.value.priority,
-          range: {
-            end: this.formAddTask.value.range.end,
-            start: this.formAddTask.value.range.start,
-          },
-          category: this.formAddTask.value.category,
-          description: this.formAddTask.value.description
-    }
+      id: this.editTask.id,
+      priority: this.formAddTask.value.priority,
+      range: {
+        end: this.formAddTask.value.range.end,
+        start: this.formAddTask.value.range.start,
+      },
+      category: this.formAddTask.value.category,
+      description: this.formAddTask.value.description
+    };
     
     this.taskService.update(task).subscribe({
       next: () => {
         this.dialogRef.close('Update');
         this.formAddTask.reset();
       },
-      error: (error) => {new Error("ОШИБКА ОТПРАВКИ ИЗМЕНЕНИЙ: " + error)}
-    })
+      error: (error) => { new Error("ОШИБКА ОТПРАВКИ ИЗМЕНЕНИЙ: " + error) }
+    });
   }
 
   submit() {
     if (!this.editTask) {
 
-    const task: ITask = {
-      priority: this.formAddTask.value.priority,
-      range: {
-        end: this.formAddTask.value.range.end,
-        start: this.formAddTask.value.range.start
-      },
-      category: this.formAddTask.value.category,
-      description: this.formAddTask.value.description
-      }
+      const task: ITask = {
+        priority: this.formAddTask.value.priority,
+        range: {
+          end: this.formAddTask.value.range.end,
+          start: this.formAddTask.value.range.start
+        },
+        category: this.formAddTask.value.category,
+        description: this.formAddTask.value.description
+      };
       
-    this.taskService.create(task).subscribe({
-      next: () => {
-        this.dialogRef.close("Save");
-        this.formAddTask.reset();
-      }
-    })
+      this.taskService.create(task).subscribe({
+        next: () => {
+          this.dialogRef.close("Save");
+          this.formAddTask.reset();
+        }
+      });
     } else {
       this.editTaskInDialog();
     }
-    
   }
 }

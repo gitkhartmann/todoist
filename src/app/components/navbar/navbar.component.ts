@@ -1,15 +1,14 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { TaskService } from 'src/app/services/task.service';
 import { DialogComponent } from '../dialog/dialog.component';
-import { TasksTableComponent } from '../tasks-table/tasks-table.component';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent implements OnInit {
   flag: boolean = false
@@ -17,7 +16,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     protected auth: AuthService,
-    private taskServise: TaskService
+    private taskServise: TaskService,
   ) { }
   
   ngOnInit(): void {

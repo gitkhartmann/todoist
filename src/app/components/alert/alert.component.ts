@@ -1,22 +1,21 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-alert',
   templateUrl: './alert.component.html',
-  styleUrls: ['./alert.component.scss']
+  styleUrls: ['./alert.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AlertComponent {
   
-  constructor(
-    public dialogRef: MatDialogRef<AlertComponent>,
-  ) { }
+  constructor( public dialogRef: MatDialogRef<AlertComponent> ) { }
 
   deleteTask(): void {
-    this.dialogRef.close('Ok')
+    this.dialogRef.close('Ok');
   }
 
   cancel(): void {
-    this.dialogRef.close('No')
+    this.dialogRef.close('No');
   }
 }

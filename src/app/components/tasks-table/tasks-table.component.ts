@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DoCheck, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, DoCheck, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -11,11 +11,11 @@ import { ITask } from 'src/app/shared/interfaces';
 import { AlertComponent } from '../alert/alert.component';
 import { DialogComponent } from '../dialog/dialog.component';
 
-
 @Component({
   selector: 'app-tasks-table',
   templateUrl: './tasks-table.component.html',
   styleUrls: ['./tasks-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy, DoCheck {
   user = { localId: '', displayName: '' };
