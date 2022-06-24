@@ -73,9 +73,10 @@ export class TaskTableDataSource extends DataSource<ITask> {
     return data.sort((a, b) => {
       const isAsc = this.sort?.direction === 'asc';
       switch (this.sort?.active) {
-        case 'priority': return compare(a.priority.toLowerCase(), b.priority.toLowerCase(), isAsc);
-        case 'date': return compare(+new Date(a.range.end), +new Date(b.range.end), isAsc);
-        case 'category': return compare(a.category.toLowerCase(), b.category.toLowerCase(), isAsc);
+        case 'dateEnd': return (+new Date(a.range.end) < +new Date(b.range.end) ? -1 : 1) * (isAsc ? 1 : -1);
+        case 'dateStart': return (+new Date(a.range.start) < +new Date(b.range.start) ? -1 : 1) * (isAsc ? 1 : -1);
+        case 'priority': return (a.priority.toLowerCase() < b.priority.toLowerCase() ? -1 : 1) * (isAsc ? 1 : -1);
+        case 'category': return (a.category.toLowerCase() < b.category.toLowerCase() ? -1 : 1) * (isAsc ? 1 : -1);
         default: return 0;
       }
     });
@@ -83,7 +84,13 @@ export class TaskTableDataSource extends DataSource<ITask> {
 }
 
 /* Simple sort comparator for example ID/Name columns (for client-side sorting). 
-function compare(a: string | number, b: string | number, isAsc: boolean): number {
+function compare(a: string | number | Date, b: string | number | Date, isAsc: boolean): number {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
+
+ case 'priority': return compare(a.priority.toLowerCase(), b.priority.toLowerCase(), isAsc);
+        case 'dateEnd': return compare(+new Date(a.range.end), +new Date(b.range.end), isAsc);
+        case 'dateStart': return compare(+new Date(a.range.start), +new Date(b.range.start), isAsc);
+        case 'category': return compare(a.category.toLowerCase(), b.category.toLowerCase(), isAsc);
+
 */
