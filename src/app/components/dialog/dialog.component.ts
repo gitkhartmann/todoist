@@ -10,7 +10,7 @@ import { ITask } from 'src/app/shared/interfaces';
   styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent implements OnInit, OnDestroy {
-  
+  flag = true;
   action: string = 'Save'
   formAddTask!: FormGroup
   taskEdit!: ITask
