@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
 import { TaskService } from 'src/app/services/task.service';
 import { DialogComponent } from '../dialog/dialog.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
@@ -10,27 +12,32 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrls: ['./navbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarComponent implements OnInit {
-  flag: boolean = false
+export class NavbarComponent implements OnDestroy {
+  flag: boolean = false;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private dialog: MatDialog,
     protected auth: AuthService,
     private taskServise: TaskService,
   ) { }
-  
-  ngOnInit(): void {
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
-  openDialog() {
+  openDialog(): void {
     const dialogRef = this.dialog.open(DialogComponent, {width: '30%'});
-    dialogRef.afterClosed().subscribe(result => {
-      this.taskServise.changeFlag(result)
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(result => {
+      this.taskServise.changeFlag(result);
     });
   }
 
-  logOut() {
-    this.auth.logOut()
-    this.auth.getAcces()
+  logOut(): void {
+    this.auth.logOut();
+    this.auth.getAcces();
   }
 }
