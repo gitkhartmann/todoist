@@ -1,5 +1,5 @@
 export interface ITask {
-    id?: string;
+    id?: string | number;
     priority: string;
   range: {
     end: string;
@@ -14,14 +14,16 @@ export interface IFbCreateResponse {
 }
 
 export interface FBAuthResponse {
-	idToken: string
-	expiresIn: string
+  idToken: string;
+  expiresIn: string;
 }
 
 export interface User {
-	email: string
-	password: string
-	returnSecureToken?: boolean
+  email: string;
+  password: string;
+  returnSecureToken?: boolean;
+  displayName?: string;
+
 }
 
 export interface IAlert {
