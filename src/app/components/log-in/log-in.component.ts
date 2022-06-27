@@ -4,7 +4,6 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
-import { User } from 'src/app/shared/interfaces';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -42,7 +41,7 @@ export class LogInComponent implements OnInit {
 
   submit(): void {
     this.loading = true
-    
+
     this.auth.login(
       this.logInForm.value.emailFormControl,
       this.logInForm.value.passwordFormControl
