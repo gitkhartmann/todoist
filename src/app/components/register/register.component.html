@@ -40,8 +40,8 @@
     
    </mat-form-field>
    <mat-dialog-actions align="end">
-     <button *ngIf="!loading" type="reset" mat-button (click)="reset()">Reset</button>
-     <button *ngIf="!loading" type="submit" routerLink="tasktable" mat-button cdkFocusInitial [disabled]="registerForm.invalid">Register</button>
+     <button *ngIf="!loading" type="button" mat-button (click)="reset()">Reset</button>
+     <button *ngIf="!loading" type="submit" mat-button cdkFocusInitial [disabled]="registerForm.invalid">Register</button>
      <mat-spinner [diameter]="36" *ngIf="loading"></mat-spinner>
    </mat-dialog-actions>
  </form>
