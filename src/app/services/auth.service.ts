@@ -28,7 +28,7 @@ export class AuthService {
 		return !!this.token
 	}
 
-  get token(): string | null {
+  /*get token(): string | null {
 		const expDate = new Date(localStorage.getItem('fb-token-exp')!)
 		if (new Date() > expDate) {
 			this.logOut()
@@ -37,8 +37,19 @@ export class AuthService {
 
 		return localStorage.getItem('fb-token')
 
-	}
+	}*/
 
+  get token(): string | null {
+		const expDate = new Date(localStorage.getItem('fake-jwt-token-exp')!)
+		if (new Date() > expDate) {
+			this.logOut()
+			return null
+		}
+
+		return localStorage.getItem('fake-jwt-token')
+
+  }
+  
   getAcces() {
     if (!this.isAuthenticated()) {
       this.router.navigate(['/login'])
@@ -51,19 +62,36 @@ export class AuthService {
     }
   }
 
-  registerUser(name: string, email: string, password: string) {
+  /*registerUser(name: string, email: string, password: string) {
     return this.http
       .post<{idToken:string, expiresIn: string}>(
         'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAlDYPBIq9ndp9TelkO5XTm39-ESs9SrGA',
         {displayName: name, email, password}
       )
+  }*/
+
+  registerUser(name: string, email: string, password: string) {
+    return this.http
+      .post<{idToken:string, expiresIn: string}>('/register',
+        {displayName: name, email, password}
+      )
   }
+
   /*tokenInStorage(token:string) {
     localStorage.setItem('token', token)
   }*/
 
+  /*login(email: string, password: string) {
+    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAlDYPBIq9ndp9TelkO5XTm39-ESs9SrGA',
+      {email, password, returnSecureToken: true}
+    ).pipe(
+      tap<any>(this.setToken),
+      catchError(this.handleError.bind(this))
+    )
+  }*/
+
   login(email: string, password: string) {
-    return this.http.post/*<{ idToken: string }>*/('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAlDYPBIq9ndp9TelkO5XTm39-ESs9SrGA',
+    return this.http.post('/login',
       {email, password, returnSecureToken: true}
     ).pipe(
       tap<any>(this.setToken),
@@ -76,25 +104,48 @@ export class AuthService {
 	}
 
   getDetailsUser() {
+    let token = localStorage.getItem('fake-jwt-token')
+
+    return this.http.post<{users:Array<{localId:string, displayName:string}>}>(
+      '/users',
+      {idToken:token}
+    )
+  }
+  /*getDetailsUser() {
     let token = localStorage.getItem('fb-token')
 
     return this.http.post<{users:Array<{localId:string, displayName:string}>}>(
       'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAlDYPBIq9ndp9TelkO5XTm39-ESs9SrGA',
       {idToken:token}
     )
-  }
-
-  /*removeToken() {
-    localStorage.removeItem('token')
   }*/
 
-  public setToken(response: FBAuthResponse | null) {
+  /*removeToken() {
+    localStorage.removeItem('token')  fake-jwt-token
+  }*/
+
+  /*public setToken(response: FBAuthResponse | null) {
 		if (response) {
 			const expDate = new Date(new Date().getTime() + +response!.expiresIn * 1000)
 			localStorage.setItem('fb-token', response!.idToken)
 			localStorage.setItem('fb-token-exp', expDate.toString())
 		} else {
 			localStorage.clear()
+		}
+  }*/
+
+  public setToken(response: FBAuthResponse | null) {
+    if (response) {
+      console.log('РЕСПОНС В СЕТТОКЕН', response)
+      console.dir('РЕСПОНС В СЕТТОКЕН',response)
+      const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000)
+      console.log('EXPDATE',expDate)
+			localStorage.setItem('fake-jwt-token', response.idToken)
+      localStorage.setItem('fake-jwt-token-exp', expDate.toString())
+      
+		} else {
+      localStorage.removeItem('fake-jwt-token');
+      localStorage.removeItem('fake-jwt-token-exp');
 		}
   }
   

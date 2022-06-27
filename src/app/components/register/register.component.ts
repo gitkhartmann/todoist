@@ -35,6 +35,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   submit(): void {
     this.loading = true;
+    console.log( this.registerForm.value.nameFormControl,
+      this.registerForm.value.emailFormControl,
+      this.registerForm.value.passwordFormControl)
     this.auth.registerUser(
       this.registerForm.value.nameFormControl,
       this.registerForm.value.emailFormControl,

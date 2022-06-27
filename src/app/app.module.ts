@@ -24,6 +24,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/auth.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TasksTableComponent } from './components/tasks-table/tasks-table.component';
+import { fakeBackendProvider } from './shared/back-end.interceptor';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -63,6 +64,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     MatSnackBarModule,
   ],
   providers: [
+    fakeBackendProvider,
     INTERCEPTOR_PROVIDER,
     { provide: MAT_DATE_LOCALE, useValue: 'ru' }
   ],

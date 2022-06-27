@@ -103,6 +103,7 @@ export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy, Do
   }
 
   editTask(row: ITask): void  {
+    console.log(row,'ЭТО АЙДИШНИК ИЗ ТАБЛИЦЫ')
     this.dialog
       .open(DialogComponent, { width: '30%', data: row })
       .afterClosed()
@@ -117,6 +118,7 @@ export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy, Do
   }
 
   remove(id: string): void  {
+    console.log('АЙДИ ДЛЯ УДАЛЕНИЯ',id)
     this.dialog.open(AlertComponent, {
       width: '250px',
       enterAnimationDuration: '400ms',
