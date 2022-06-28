@@ -24,19 +24,19 @@ export class AuthInterceptor implements HttpInterceptor {
         setParams: {
           auth: this.auth.token as string
         }
-      })
+      });
     }
     return next.handle(request)
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          console.log('INTERCEPTOR ERROR: ', error)
+          console.log('INTERCEPTOR ERROR: ', error);
           if (error.status === 401) {
-            this.auth.logOut()
+            this.auth.logOut();
             this.router.navigate(['/login'], {
-              queryParams: {authFailed: true}
-            })
+              queryParams: { authFailed: true }
+            });
           }
-          return throwError(error)
+          return throwError(error);
         })
       )
   }
