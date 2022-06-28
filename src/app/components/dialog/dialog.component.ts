@@ -52,24 +52,11 @@ export class DialogComponent implements OnInit {
         category: this.editTask.category,
         description: this.editTask.description
       };
-      console.log(this.editTask.id, 'ЕСТЬ ЛИ ТУТ???')
     }
   }
 
   editTaskInDialog(): void {
-    const tasks = JSON.parse(localStorage.getItem('tasks')!);
-    console.log(tasks,' А ЭТО ТАСКИ')
-    const taskId = tasks
-      .find((x: ITask) => {
-        if (x.priority === this.formAddTask.value.priority /*&&
-          x.description === this.formAddTask.value.description &&
-          x.category === this.formAddTask.value.category*/) {
-          return true
-        } else {
-          return false
-        }
-    })
-    console.log(taskId, 'ДОЛЖЕН БЫТЬ АЙДИШНИК')
+    
     const task: ITask = {
       id: this.editTask.id,
       priority: this.formAddTask.value.priority,
@@ -87,7 +74,7 @@ export class DialogComponent implements OnInit {
         this.dialogRef.close('Update');
         this.formAddTask.reset();
       },
-      error: (error) => { new Error("ОШИБКА ОТПРАВКИ ИЗМЕНЕНИЙ: " + error) }
+        error: (error) => { new Error("ОШИБКА ОТПРАВКИ ИЗМЕНЕНИЙ: " + error); }
     });
   }
 
