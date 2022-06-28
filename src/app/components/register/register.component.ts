@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { MyErrorStateMatcher } from '../log-in/log-in.component';
@@ -12,12 +12,16 @@ import { takeUntil } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent implements OnInit, OnDestroy {
+  message: string = '';
   destroy$: Subject<boolean> = new Subject<boolean>();
   registerForm!: FormGroup;
   loading: boolean = false;
   matcher = new MyErrorStateMatcher();
 
-  constructor( private auth: AuthService ) { }
+  constructor(
+    private cd: ChangeDetectorRef,
+    private auth: AuthService
+  ) { }
   
   ngOnDestroy(): void {
     this.destroy$.next(true);
@@ -35,9 +39,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   submit(): void {
     this.loading = true;
-    console.log( this.registerForm.value.nameFormControl,
-      this.registerForm.value.emailFormControl,
-      this.registerForm.value.passwordFormControl)
+    
     this.auth.registerUser(
       this.registerForm.value.nameFormControl,
       this.registerForm.value.emailFormControl,
@@ -47,11 +49,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
       next: data => {
           this.reset();
           this.auth.setToken(data);
-          console.log('Registered IdToken', data.idToken, data.expiresIn);
           this.auth.canAuthenticate();
       },
-      error: data => {
-        console.log(data.error.error.message);
+      error: error => {
+        this.message = error;
+        this.loading = false;
+        setTimeout(() => {
+          this.message = '';
+          this.cd.markForCheck();
+        }, 5000);
+        this.cd.markForCheck();
       }
     }).add(() => {
       this.loading = false;
@@ -62,8 +69,4 @@ export class RegisterComponent implements OnInit, OnDestroy {
   reset(): void {
     this.registerForm.reset();
   }
-
-  
-
-
 }

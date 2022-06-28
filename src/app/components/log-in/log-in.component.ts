@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Subject } from 'rxjs';
@@ -19,12 +19,16 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LogInComponent implements OnInit {
+  message: string = '';
   loading: boolean = false;
   logInForm!: FormGroup;
   matcher = new MyErrorStateMatcher();
   destroy$: Subject<boolean> = new Subject<boolean>();
   
-  constructor( private auth:AuthService ) { }
+  constructor(
+    private cd: ChangeDetectorRef,
+    private auth: AuthService
+  ) { }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
@@ -33,19 +37,24 @@ export class LogInComponent implements OnInit {
 
   ngOnInit(): void {
     this.logInForm = new FormGroup({
-      emailFormControl: new FormControl('', [Validators.required, Validators.email]),
-      passwordFormControl: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+      emailFormControl: new FormControl(
+        '', [Validators.required, Validators.email]
+      ),
+      passwordFormControl: new FormControl(
+        null, [Validators.required, Validators.minLength(6)]
+      ),
     });
     this.auth.canAuthenticate();
   }
 
   submit(): void {
-    this.loading = true
+    this.loading = true;
 
     this.auth.login(
-      this.logInForm.value.emailFormControl,
-      this.logInForm.value.passwordFormControl
-    )
+      {
+        email: this.logInForm.value.emailFormControl,
+        password: this.logInForm.value.passwordFormControl
+      })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: data => {
@@ -53,12 +62,17 @@ export class LogInComponent implements OnInit {
           this.auth.setToken(data);
           this.auth.canAuthenticate();
         },
-        error: data => {
-          console.log(data.error.error.message)
+        error: error => {
+          this.message = error.message;
+          this.loading = false;
+          setTimeout(() => {
+            this.message = '';
+            this.cd.markForCheck();
+          }, 5000);
+          this.cd.markForCheck();
         }
       }).add(() => {
         this.loading = false;
-        console.log('Login complete');
       });
   }
 

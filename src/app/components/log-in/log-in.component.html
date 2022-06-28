@@ -30,5 +30,6 @@
     <button *ngIf="!loading" type="reset" mat-button (click)="reset()">Reset</button>
     <button *ngIf="!loading" type="submit" mat-button cdkFocusInitial [disabled]="logInForm.invalid">Log in</button>
     <mat-spinner [diameter]="36" *ngIf="loading"></mat-spinner>
+    <mat-error *ngIf="message">{{message}}</mat-error>
   </mat-dialog-actions>
 </form>
