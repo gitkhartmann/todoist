@@ -59,26 +59,13 @@ export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy, Do
   ngOnInit(): void {
     this.auth.getAcces();
     
-    if (this.auth.isAuthenticated()) {
-      this.auth.getDetailsUser()
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-        next: data => {
-            this.user.displayName = data.users[0].displayName;
-            this.user.localId = data.users[0].localId;
-        }
-      });
-    }
-    
     this.getAllTasks();
 
     this.taskService.flag$
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          setTimeout(() => {
             this.getAllTasks();
-          }, 500);
         }
       });
   }
@@ -103,23 +90,20 @@ export class TasksTableComponent implements AfterViewInit, OnInit, OnDestroy, Do
   }
 
   editTask(row: ITask): void  {
-    console.log(row,'ЭТО АЙДИШНИК ИЗ ТАБЛИЦЫ')
     this.dialog
       .open(DialogComponent, { width: '30%', data: row })
       .afterClosed()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          setTimeout(() => {
-            this.getAllTasks();
-          }, 500);
+          this.getAllTasks();
         }
       });
   }
 
   remove(id: string): void  {
-    console.log('АЙДИ ДЛЯ УДАЛЕНИЯ',id)
-    this.dialog.open(AlertComponent, {
+    this.dialog
+      .open(AlertComponent, {
       width: '250px',
       enterAnimationDuration: '400ms',
       exitAnimationDuration: '100ms',
