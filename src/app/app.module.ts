@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -66,7 +66,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
   providers: [
     fakeBackendProvider,
     INTERCEPTOR_PROVIDER,
-    { provide: MAT_DATE_LOCALE, useValue: 'ru' }
+    { provide: MAT_DATE_LOCALE, useValue: 'ru' },
   ],
   bootstrap: [AppComponent]
 })

@@ -11,8 +11,8 @@ import { ITask } from 'src/app/shared/interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogComponent implements OnInit {
-  flag: boolean = true;
-  action: string = 'Save';
+  flag  = true;
+  action = 'Save';
   formAddTask!: FormGroup;
   taskEdit!: ITask;
   
@@ -36,11 +36,10 @@ export class DialogComponent implements OnInit {
 
     if (this.editTask) {
       this.action = 'Update';
-
-      this.formAddTask.controls['priority'].setValue(this.editTask.priority);
-      this.formAddTask.controls['range'].setValue(this.editTask.range);
-      this.formAddTask.controls['category'].setValue(this.editTask.category);
-      this.formAddTask.controls['description'].setValue(this.editTask.description);
+      this.formAddTask.get('priority')!.setValue(this.editTask.priority);
+      this.formAddTask.get('range')!.setValue(this.editTask.range);
+      this.formAddTask.get('category')!.setValue(this.editTask.category);
+      this.formAddTask.get('description')!.setValue(this.editTask.description);
       
       this.taskEdit = {
         id: this.editTask.id,
