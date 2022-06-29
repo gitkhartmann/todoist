@@ -1,29 +1,34 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import {  MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TaskService } from 'src/app/services/task.service';
 import { DialogComponent } from './dialog.component';
 
 describe('DialogComponent', () => {
   let component: DialogComponent;
   let fixture: ComponentFixture<DialogComponent>;
+  const fakeTaskService = jasmine.createSpyObj('fakeTaskSer', ['create', 'update']);
+  const task = {
+    id: 1,
+    priority: "Высокий",
+    range: {
+      end: '12.06.2022',
+      start: '02.06.2022',
+    },
+    category: 'Развлечения',
+    description: 'Шла Саша по шоссе и сосала сушку.'
+  };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule, MatDialogModule, ],
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule, MatDialogModule, ReactiveFormsModule],
       declarations: [DialogComponent],
       providers: [
+        {provide: TaskService, useValue: fakeTaskService},
         { provide: MatDialogRef, useValue: {} },
-        { provide: MAT_DIALOG_DATA, useValue: {
-            id: 1,
-            priority: "Высокий",
-            range: {
-            end: '12.06.2022',
-            start: '02.06.2022',
-          },
-          category: 'Развлечения',
-          description: 'Шла Саша по шоссе и сосала сушку.'
-        }, },
+        { provide: MAT_DIALOG_DATA, useValue: task },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
