@@ -1,8 +1,7 @@
-import { async, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { of, Observable } from 'rxjs';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -12,7 +11,6 @@ describe('AuthService', () => {
       imports:  [RouterTestingModule, HttpClientTestingModule]
     });
     service = TestBed.inject(AuthService);
-    const spyHttp = jasmine.createSpyObj('HttpClient', { post: of({}), get: of({}) })
   });
 
   it('should be created', () => {

@@ -4,9 +4,6 @@ import { LogInComponent } from './log-in.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-
-
-
 describe('LogInComponent', () => {
   let component: LogInComponent;
   let fixture: ComponentFixture<LogInComponent>;

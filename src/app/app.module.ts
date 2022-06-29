@@ -20,17 +20,11 @@ import { LogInComponent } from './components/log-in/log-in.component';
 import { RegisterComponent } from './components/register/register.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from './shared/auth.interceptor';
+import { HttpClientModule } from '@angular/common/http';
+import { AuthInterceptorProvider } from './shared/auth.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TasksTableComponent } from './components/tasks-table/tasks-table.component';
 import { fakeBackendProvider } from './shared/back-end.interceptor';
-
-const INTERCEPTOR_PROVIDER: Provider = {
-  provide: HTTP_INTERCEPTORS,
-  multi: true,
-  useClass: AuthInterceptor
-}
 
 @NgModule({
   declarations: [
@@ -65,7 +59,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
   ],
   providers: [
     fakeBackendProvider,
-    INTERCEPTOR_PROVIDER,
+    AuthInterceptorProvider,
     { provide: MAT_DATE_LOCALE, useValue: 'ru' },
   ],
   bootstrap: [AppComponent]

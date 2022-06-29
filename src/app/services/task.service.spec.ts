@@ -1,8 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { TaskService } from './task.service';
-
-
 
 describe('TaskService', () => {
   let service: TaskService;

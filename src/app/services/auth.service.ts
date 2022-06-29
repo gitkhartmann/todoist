@@ -1,9 +1,9 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { FBAuthResponse, User } from '../shared/interfaces';
+import { Observable, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { FBAuthResponse } from '../shared/interfaces';
 
 @Injectable({
   providedIn: 'root'
